@@ -92,7 +92,7 @@ public class AnimalService {
                     } catch (IOException ex) {
                     }
                     Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
-
+                    a.setImage(im);
                     listAnimal.add(createListEntry(a.getNom(), "17/12/2001", im));
                 }
             } catch (IOException ex) {
@@ -115,14 +115,29 @@ public class AnimalService {
                 System.out.println(tasks);
                 //System.out.println(tasks);
                 List<Map<String, Object>> list = (List<Map<String, Object>>) tasks.get("root");
+                
                 for (Map<String, Object> obj : list) {
+                    int mm = Display.getInstance().convertToPixels(3);
                     Animal a = new Animal();
                     float id = Float.parseFloat(obj.get("id").toString());
                     a.setId((int) id);
                     a.setRace(obj.get("race").toString());
                     a.setNom(obj.get("nom").toString());
                     a.setImagePath("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
-                   listAnimal.add(new Animal(a.getId(),a.getRace(),a.getNom(), a.getImagePath()));
+                    EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
+
+                    ImageIO imageio = ImageIO.getImageIO();
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    try {
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
+                                out,
+                                ImageIO.FORMAT_JPEG,
+                                100, 100, 1);
+                    } catch (IOException ex) {
+                    }
+                    Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
+                    a.setImage(im);
+                   listAnimal.add(new Animal(a.getId(),a.getRace(),a.getNom(), a.getImage()));
                    
                 }
             } catch (IOException ex) {

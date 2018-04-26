@@ -5,6 +5,8 @@
  */
 package com.esprit.entities;
 
+import com.codename1.ui.Image;
+
 /**
  *
  * @author ADMIN
@@ -19,6 +21,22 @@ public class Animal {
     private String Taille;
     private String Description;
     private String imagePath;
+    private Image image;
+
+    public Animal(int id, String Race, String Nom, Image image) {
+        this.id = id;
+        this.Race = Race;
+        this.Nom = Nom;
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     public Animal(int id, String Race, String Nom, String imagePath) {
         this.id = id;

@@ -144,9 +144,9 @@ public class Adoption extends BaseForm {
         
           AnimalService serviceTask = new AnimalService();
         ArrayList<Animal> lis = serviceTask.getList();
-        lis.forEach((li) -> {
-            addButton(res.getImage(li.getImagePath()), li.getRace(), false, 26, 32);
-        });
+        for (Animal li : lis) {
+             addButton(li.getImage(), li.getRace(), false, 26, 32);
+        }
         
     }
     
