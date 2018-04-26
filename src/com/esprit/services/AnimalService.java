@@ -122,7 +122,7 @@ public class AnimalService {
                     a.setRace(obj.get("race").toString());
                     a.setNom(obj.get("nom").toString());
                     a.setImagePath("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
-                    listAnimal.add(a);
+                   listAnimal.add(new Animal(a.getId(),a.getRace(),a.getNom(), a.getImagePath()));
                    
                 }
             } catch (IOException ex) {
