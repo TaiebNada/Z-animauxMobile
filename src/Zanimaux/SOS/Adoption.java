@@ -64,14 +64,14 @@ public class Adoption extends BaseForm {
         
         super.addSideMenu(res);
         tb.addSearchCommand(e -> {});
-        
+     
         Tabs swipe = new Tabs();
-
+  
         Label spacer1 = new Label();
         Label spacer2 = new Label();
         addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
-                
+             
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
@@ -107,17 +107,17 @@ public class Adoption extends BaseForm {
             }
         });
         
-        Component.setSameSize(radioContainer, spacer1, spacer2);
+       Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
-        
+    
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("All", barGroup);
+        RadioButton all = RadioButton.createToggle("Adoption", barGroup);
         all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Featured", barGroup);
+        RadioButton featured = RadioButton.createToggle("Adheration", barGroup);
         featured.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Popular", barGroup);
+        RadioButton popular = RadioButton.createToggle("Bulle", barGroup);
         popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
+        RadioButton myFavorite = RadioButton.createToggle("Spot", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
         
@@ -144,8 +144,9 @@ public class Adoption extends BaseForm {
         
           AnimalService serviceTask = new AnimalService();
         ArrayList<Animal> lis = serviceTask.getList();
-        for (Animal li : lis) {
-             addButton(li.getImage(), li.getRace(), false, 26, 32);
+        for(Animal li : lis)
+        {
+             addButton(li.getImage(), li.getRace(), false, 26, 32,li.getId());
         }
         
     }
@@ -195,7 +196,7 @@ public class Adoption extends BaseForm {
         swipe.addTab("", page1);
     }
     
-   private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount) {
+   private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount,int id) {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
        Button image = new Button(img.fill(width, height));
@@ -226,7 +227,12 @@ public class Adoption extends BaseForm {
                        BoxLayout.encloseX(likes, comments)
                ));
        add(cnt);
-       image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
+       image.addActionListener((evt) -> {
+           ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
+           DetailAdoption f = new DetailAdoption();
+           DetailAdoption.setId(id);
+           f.getF().show();
+       });
    }
     
     private void bindButtonSelection(Button b, Label arrow) {
