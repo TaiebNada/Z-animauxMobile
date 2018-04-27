@@ -7,18 +7,13 @@ package com.esprit.services;
 
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.File;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
-import com.codename1.ui.Button;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
-import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.ImageIO;
 import com.esprit.entities.Animal;
 import java.io.ByteArrayOutputStream;
@@ -27,16 +22,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 
 /**
  *
  * @author ADMIN
  */
 public class AnimalService {
+    
+    //static List<Animal> all = new List<Animal>
 
     public void ajoutTask(Animal ta) {
         ConnectionRequest con = new ConnectionRequest();
@@ -115,7 +108,7 @@ public class AnimalService {
                 System.out.println(tasks);
                 //System.out.println(tasks);
                 List<Map<String, Object>> list = (List<Map<String, Object>>) tasks.get("root");
-                
+
                 for (Map<String, Object> obj : list) {
                     int mm = Display.getInstance().convertToPixels(3);
                     Animal a = new Animal();
@@ -123,6 +116,7 @@ public class AnimalService {
                     a.setId((int) id);
                     a.setRace(obj.get("race").toString());
                     a.setNom(obj.get("nom").toString());
+                    
                     a.setImagePath("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
@@ -137,8 +131,13 @@ public class AnimalService {
                     }
                     Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
                     a.setImage(im);
-                   listAnimal.add(new Animal(a.getId(),a.getRace(),a.getNom(), a.getImage()));
-                   
+                    a.setEspece(obj.get("espece").toString());
+                    a.setDescription(obj.get("description").toString());
+                    a.setSexe(obj.get("sexe").toString());
+                    a.setTaille(obj.get("taille").toString());
+                     a.setType(obj.get("type").toString());
+                     listAnimal.add(new Animal(a.getId(), a.getEspece(), a.getRace(), a.getSexe(),  a.getNom(),  a.getTaille(),  a.getDescription(), im,  a.getType()));
+
                 }
             } catch (IOException ex) {
             }
@@ -162,4 +161,49 @@ public class AnimalService {
         return entry;
     }
 
+    public Animal recherche(int id) {
+        Animal a = new Animal();
+        ConnectionRequest con = new ConnectionRequest();
+        System.out.println("idddddddddd"+id);
+        con.setUrl("http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Find/"+ id);
+       
+        con.addResponseListener((NetworkEvent evt) -> {
+            //listOffres = getListOffre(new String(con.getResponseData()));
+            JSONParser jsonp = new JSONParser();
+            try {
+                Map<String, Object> skills = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                System.out.println(skills);
+                System.out.println(skills.keySet());
+                System.out.println(skills.values());
+                int mm = Display.getInstance().convertToPixels(3);
+                List<Map<String, Object>> list = (List<Map<String, Object>>) skills.get("root");
+                for (Map<String, Object> obj : list) {
+                    float id1 = Float.parseFloat(obj.get("id").toString());
+                    a.setId((int) id1);
+                    System.out.println(id1);
+                    a.setEspece(obj.get("espece").toString());
+                    a.setNom(obj.get("nom").toString());
+                    a.setDescription(obj.get("description").toString());
+                    a.setSexe(obj.get("sexe").toString());
+                    a.setTaille(obj.get("taille").toString());
+                    EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
+
+                    ImageIO imageio = ImageIO.getImageIO();
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    try {
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
+                                out,
+                                ImageIO.FORMAT_JPEG,
+                                100, 100, 1);
+                    } catch (IOException ex) {
+                    }
+                    Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
+                    a.setImage(im);
+                }
+            } catch (IOException ex) {
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return a;
+    }
 }
