@@ -69,7 +69,7 @@ public class Adoption extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        
+
         addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
 
@@ -146,13 +146,13 @@ public class Adoption extends BaseForm {
             AnimalService serviceTask = new AnimalService();
             ArrayList<Animal> lis = serviceTask.getList();
             for (Animal li : lis) {
-                addButton(li.getImage(), li.getRace(), true, 26, 32, li.getId(),li);
+                addButton(li.getImage(), li.getRace(), true, 26, 32, li.getId(), li);
             }
 
         });
-        
+
         Adheration.addActionListener((evt) -> {
-           new Adheration().show();
+            new Adheration().show();
         });
 
     }
@@ -201,7 +201,7 @@ public class Adoption extends BaseForm {
         swipe.addTab("", page1);
     }
 
-    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, int id,Animal li) {
+    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, int id, Animal li) {
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
         Button image = new Button(img.fill(width, height));
@@ -235,8 +235,8 @@ public class Adoption extends BaseForm {
 
         image.addActionListener((evt) -> {
             ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
-            System.out.println("le anoaleded est"+li.getNom());
-      
+            System.out.println("le anoaleded est" + li.getNom());
+
             DetailAdoption.setA(li);
             new DetailAdoption().show();
         });
