@@ -30,7 +30,8 @@ public class Adheration extends BaseForm {
     Form f;
 
     public Adheration() {
-        super("Newsfeed",new BorderLayout());
+
+        super("Newsfeed", new BorderLayout());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         tb.setUIID("Container");
@@ -84,7 +85,7 @@ public class Adheration extends BaseForm {
             AnimalService ser = new AnimalService();
             Animal a = new Animal(Espece.getText(), Race.getText(), Sexe.getText(), Nom.getText(), Taille.getText(), Description.getText(), "En Attente");
             ser.ajoutTask(a);
-           // new Adoption(res).show();
+            // new Adoption(res).show();
 
         });
 
