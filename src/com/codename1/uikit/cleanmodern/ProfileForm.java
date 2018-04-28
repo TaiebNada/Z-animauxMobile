@@ -20,6 +20,7 @@
 package com.codename1.uikit.cleanmodern;
 
 import com.codename1.components.ScaleImageLabel;
+import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Display;
@@ -34,6 +35,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.esprit.entities.User;
+import com.esprit.services.UserService;
 
 /**
  * The user profile form
@@ -77,20 +80,23 @@ public class ProfileForm extends BaseForm {
                                 new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond")),
                             twitter
                     )
-                )
+                )  
         ));
 
-        TextField username = new TextField("sandeep");
+        
+        TextField username = new TextField(SignInForm.getUsernameU());
         username.setUIID("TextFieldBlack");
         addStringValue("Username", username);
-
-        TextField email = new TextField("sandeep@gmail.com", "E-Mail", 20, TextField.EMAILADDR);
+        
+        
+        TextField email = new TextField(SignInForm.getEmailU(), "E-Mail", 20, TextField.EMAILADDR);
         email.setUIID("TextFieldBlack");
         addStringValue("E-Mail", email);
         
-        TextField password = new TextField("sandeep", "Password", 20, TextField.PASSWORD);
+        TextField password = new TextField(SignInForm.getPasswordU(), "Password", 20, TextField.PASSWORD);
         password.setUIID("TextFieldBlack");
         addStringValue("Password", password);
+        
 
         CheckBox cb1 = CheckBox.createToggle(res.getImage("on-off-off.png"));
         cb1.setUIID("Label");
@@ -101,6 +107,24 @@ public class ProfileForm extends BaseForm {
         
         addStringValue("Facebook", FlowLayout.encloseRightMiddle(cb1));
         addStringValue("Twitter", FlowLayout.encloseRightMiddle(cb2));
+        
+        
+        Button edit = new Button("Edit");
+        addStringValue1(edit);
+        edit.addActionListener((e) -> {
+           UserService us = new UserService();
+           User user = new User(username.getText(), email.getText(), password.getText());
+           //User user = new (username.getText(),email.getText(),password.getText());
+           us.UpdateProfile(user);
+        });
+        
+        
+    }
+    
+    
+    private void addStringValue1(Component v) {
+        add(BorderLayout.west(v));
+        add(createLineSeparator(0xeeeeee));
     }
     
     private void addStringValue(String s, Component v) {
