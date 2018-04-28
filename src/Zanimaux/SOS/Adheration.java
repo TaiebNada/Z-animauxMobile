@@ -5,17 +5,17 @@
  */
 package Zanimaux.SOS;
 
+import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
-import com.codename1.ui.Component;
+import com.codename1.ui.Container;
+import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
-import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.list.DefaultListModel;
-import com.codename1.ui.list.MultiList;
+import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.uikit.cleanmodern.BaseForm;
 import com.esprit.entities.Animal;
 import com.esprit.services.AnimalService;
@@ -30,68 +30,64 @@ public class Adheration extends BaseForm {
     Form f;
 
     public Adheration() {
-        super("Adheration", BoxLayout.y());
+        super("Newsfeed",new BorderLayout());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
+        tb.setUIID("Container");
         getTitleArea().setUIID("Container");
-        setTitle("Veuillez Saisir les données");
-        getContentPane().setScrollVisible(false);
-        f = new Form("Adheration");
-        TextField Espece = new TextField("Espece");
-        TextField Race = new TextField("Race");
-        TextField Sexe = new TextField("Sexe");
-        TextField Nom = new TextField("Nom");
-        TextField Taille = new TextField("Taille");
-        TextField Description = new TextField("Description");
-        TextField Type = new TextField("En Attente");
-        Button btnajout = new Button("ajouter");
-        f.add(Espece);
-        f.add(Race);
-        f.add(Sexe);
-        f.add(Nom);
-        f.add(Taille);
-        f.add(Description);
+        Form previous = Display.getInstance().getCurrent();
+        tb.setBackCommand("", e -> previous.showBack());
+        setUIID("Adheration");
 
-        f.add(btnajout);
-        btnajout.addActionListener((e) -> {
+        TextField Espece = new TextField("", "Espece", 20, TextField.ANY);
+        TextField Race = new TextField("", "Race", 20, TextField.ANY);
+        TextField Sexe = new TextField("", "Sexe", 20, TextField.ANY);
+        TextField Taille = new TextField("", "Taille", 20, TextField.ANY);
+        TextField Description = new TextField("", "Description", 20, TextField.ANY);
+        TextField Nom = new TextField("", "Nom", 20, TextField.ANY);
+
+        Espece.setSingleLineTextArea(false);
+        Race.setSingleLineTextArea(false);
+        Sexe.setSingleLineTextArea(false);
+        Taille.setSingleLineTextArea(false);
+        Description.setSingleLineTextArea(false);
+        Nom.setSingleLineTextArea(false);
+        Button next = new Button("Next");
+        Button signIn = new Button("Sign In");
+        signIn.addActionListener(e -> previous.showBack());
+        signIn.setUIID("Link");
+        Label alreadHaveAnAccount = new Label("Retour Au Menu");
+
+        Container content = BoxLayout.encloseY(
+                new Label("Sign Up", "LogoLabel"),
+                new FloatingHint(Espece),
+                createLineSeparator(),
+                new FloatingHint(Race),
+                createLineSeparator(),
+                new FloatingHint(Sexe),
+                createLineSeparator(),
+                new FloatingHint(Description),
+                createLineSeparator(),
+                new FloatingHint(Nom),
+                createLineSeparator(),
+                new FloatingHint(Taille),
+                createLineSeparator()
+        );
+        content.setScrollableY(true);
+        add(BorderLayout.CENTER, content);
+        add(BorderLayout.SOUTH, BoxLayout.encloseY(
+                next,
+                FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
+        ));
+        next.requestFocus();
+        next.addActionListener((evt) -> {
             AnimalService ser = new AnimalService();
             Animal a = new Animal(Espece.getText(), Race.getText(), Sexe.getText(), Nom.getText(), Taille.getText(), Description.getText(), "En Attente");
             ser.ajoutTask(a);
+           // new Adoption(res).show();
 
         });
-        Espece.setUIID("TextFieldBlack");
-        addStringValue("Espece", Espece);
 
-        Race.setUIID("TextFieldBlack");
-        addStringValue("Race", Race);
-
-        Description.setUIID("TextFieldBlack");
-        addStringValue("Description", Description);
-
-        Taille.setUIID("TextFieldBlack");
-        addStringValue("Taille", Taille);
-    }
-
-    private void addStringValue(String s, Component v) {
-        add(BorderLayout.west(new Label(s, "PaddedLabel")).
-                add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
-    }
-
-    public Form getF() {
-        return f;
-    }
-
-    public void setF(Form f) {
-        this.f = f;
-    }
-
-    public static int getId() {
-        return id;
-    }
-
-    public static void setId(int id) {
-        Adheration.id = id;
     }
 
 }
