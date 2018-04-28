@@ -10,6 +10,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
@@ -45,24 +46,32 @@ public class AnimauxService {
 
                 for (Map<String, Object> obj : list) {
                     Animaux an = new Animaux();
-                    an.setNomVet(obj.get("nomVet").toString());
+                   an.setNomVet(obj.get("nomVet").toString());
                     an.setNom(obj.get("nom").toString());
                     an.setEspece(obj.get("espece").toString());
                     an.setDescription(obj.get("description").toString());
                     an.setSexe(obj.get("sexe").toString());
-                   an.setPoids((Integer)obj.get("poids"));
-                    an.setTaille((Integer)obj.get("taille"));
-                    an.setDateVaccin((Date)obj.get("dateVaccin"));
-                    an.setDateVisiteD((Date)obj.get("dateVisiteD"));
+                  float poids = Float.parseFloat(obj.get("poids").toString());
+                  int poids2 = (int) poids;
+                   an.setPoids(poids2);
+                    float taille = Float.parseFloat(obj.get("taille").toString());
+                  int taille2 = (int) taille;
+                   an.setTaille(taille2);
+                   
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                   //an.setDateVaccin((Date)obj.get("dateVaccin"));
+                  //  an.setDateVaccin(sdf.format(new Date((long)Float.parseFloat(obj.get("dateVaccin").toString()))));
+                  //  an.setDateVisiteD((Date)obj.get("dateVisiteD"));
+                    System.out.println("blavkaddz" +an.getNomVet());
                     
-                      int mm = Display.getInstance().convertToPixels(3);
-                    an.setImagePath("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images" + obj.get("image").toString());
+                     int mm = Display.getInstance().convertToPixels(3);
+                  an.setImagePath("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm* 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images" + obj.get("image").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
