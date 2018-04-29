@@ -19,6 +19,8 @@
 
 package com.codename1.uikit.cleanmodern;
 
+import Zanimaux.Event.Affichage;
+import Zanimaux.Event.HomeForm;
 import Zanimaux.SOS.Adoption;
 import Zanimaux.Sante.SanteClient;
 import com.codename1.components.ScaleImageLabel;
@@ -85,6 +87,8 @@ public class BaseForm extends Form {
         ));
         
         tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show());
+         tb.addMaterialCommandToSideMenu("evenements", FontImage.MATERIAL_UPDATE, e -> new Affichage(res).show());
+           tb.addMaterialCommandToSideMenu("ajouter evenement", FontImage.MATERIAL_UPDATE, e -> new HomeForm(res).show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("SOS", FontImage.MATERIAL_SETTINGS, e -> new Adoption(res).show());
         tb.addMaterialCommandToSideMenu("Espace Sante", FontImage.MATERIAL_SETTINGS, e -> new SanteClient(res).show());
