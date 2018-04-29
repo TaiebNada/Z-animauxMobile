@@ -22,13 +22,23 @@ package com.codename1.uikit.cleanmodern;
 import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.esprit.entities.User;
+import com.esprit.services.UserService;
+import java.util.ArrayList;
+
+
+
+
+
 
 /**
  * Sign in UI
@@ -37,6 +47,54 @@ import com.codename1.ui.util.Resources;
  */
 public class SignInForm extends BaseForm {
 
+    
+    public  static String usernameU;
+    public  static String emailU;
+    public  static String passwordU;
+    public  static String imageU;
+    public  static int code;
+    
+    public  static void setUsernameU(String username) {
+        SignInForm.usernameU = username;
+    }
+
+    public  static  String getUsernameU() 
+    {
+        return usernameU;
+    }
+    
+    
+    public  static void setEmailU(String email) {
+        SignInForm.emailU = email;
+    }
+    public  static  String getEmailU() 
+    {
+        return emailU;
+    }
+    
+    
+    public  static void setPasswordU(String password) {
+        SignInForm.passwordU = password;
+    }
+
+    public  static  String getPasswordU() 
+    {
+        return passwordU;
+    }
+    
+    
+    public  static void setImageU(String im) {
+        SignInForm.imageU = im;
+    }
+    public  static  String getImageU() 
+    {
+        return imageU;
+    }
+    
+    
+    
+     
+    
     public SignInForm(Resources res) {
         super(new BorderLayout());
         
@@ -71,7 +129,66 @@ public class SignInForm extends BaseForm {
         content.setScrollableY(true);
         add(BorderLayout.SOUTH, content);
         signIn.requestFocus();
-        signIn.addActionListener(e -> new NewsfeedForm(res).show());
+        signIn.addActionListener(e -> 
+        {
+           
+            UserService ser= new UserService();
+            System.out.println(ser.rechercheSkill(username.getText()));
+            for (int i =0 ; i<ser.rechercheSkill(username.getText()).size() ;i++)
+                
+            {
+                
+                System.out.println(ser.rechercheSkill(username.getText()).get(i).getUser());
+                if (username.getText().equals(ser.rechercheSkill(username.getText()).get(i).getUser())&& (password.getText().equals(ser.rechercheSkill(username.getText()).get(i).getPassword())) )
+                {
+                    setUsernameU(username.getText());
+                    setPasswordU(password.getText());
+                    setEmailU(ser.rechercheSkill(username.getText()).get(i).getEmail());
+                    new NewsfeedForm(res).show();
+                }
+                else 
+                    { final Button showPopup = new Button("Show Popup");
+            Dialog d = new Dialog("Popup Title");
+        TextArea popupBody = new TextArea("login or password incorrect ! ", 3, 10);
+        popupBody.setUIID("PopupBody");
+        popupBody.setEditable(false);
+        d.setLayout(new BorderLayout());
+        d.add(BorderLayout.CENTER, popupBody);
+        d.showPopupDialog(showPopup);}
+        }
+                
+                
+            
+            /*for (int i =0 ; i<1 ;i++)
+            {
+                System.out.println("men houni");
+                if (username.getText().equals(ser.getList2().get(i).getUser()) && (password.getText().equals(ser.getList2().get(i).getPassword())))
+                {//System.out.println(ser.getList2().get(i).getUser());
+                
+                    setPasswordU(password.getText());
+                    setUsernameU(username.getText());
+                    System.out.println(usernameU);
+                    System.out.println(passwordU);
+                    System.out.println("aha");
+                new NewsfeedForm(res).show();
+                
+                }
+                else 
+                    { final Button showPopup = new Button("Show Popup");
+            Dialog d = new Dialog("Popup Title");
+        TextArea popupBody = new TextArea("login or password incorrect ! ", 3, 10);
+        popupBody.setUIID("PopupBody");
+        popupBody.setEditable(false);
+        d.setLayout(new BorderLayout());
+        d.add(BorderLayout.CENTER, popupBody);
+        d.showPopupDialog(showPopup);}
+        }*/
+            });
+        
+        
+        //setImageU("1.png");
+        
     }
     
 }
+
