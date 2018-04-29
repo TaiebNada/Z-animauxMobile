@@ -18,7 +18,7 @@
  */
 
 package com.codename1.uikit.cleanmodern;
-
+import Zanimaux.SAV.Sav;
 import Zanimaux.SOS.Adoption;
 import Zanimaux.Sante.SanteClient;
 import com.codename1.components.ScaleImageLabel;
@@ -88,6 +88,7 @@ public class BaseForm extends Form {
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("SOS", FontImage.MATERIAL_SETTINGS, e -> new Adoption(res).show());
         tb.addMaterialCommandToSideMenu("Espace Sante", FontImage.MATERIAL_SETTINGS, e -> new SanteClient(res).show());
+        tb.addMaterialCommandToSideMenu("Service Aprés Vente", FontImage.MATERIAL_EXIT_TO_APP, e -> new Sav(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
     }
 }
