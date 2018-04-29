@@ -43,6 +43,19 @@ public class Animaux {
     public Animaux() {
     }
 
+    public Animaux(String nom, String espece, String sexe, String description, int taille, int poids, Image image, String nomVet) {
+        this.nom = nom;
+        this.espece = espece;
+        this.sexe = sexe;
+        this.description = description;
+        this.taille = taille;
+        this.poids = poids;
+        this.image = image;
+        this.nomVet = nomVet;
+    }
+    
+    
+
     public Animaux(int id, String nom, String espece, String sexe, Image image, String nomVet) {
         this.id = id;
         this.nom = nom;

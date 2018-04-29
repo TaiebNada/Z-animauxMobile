@@ -1,10 +1,24 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b267806de350b520e0ffd1e91bed0d93af29a840
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/com/esprit/services/AnimauxService.java</file>
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/com/esprit/entities/Animaux.java</file>
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/Zanimaux/Sante/profilAnimal.java</file>
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/Zanimaux/SOS/DetailAdoption.java</file>
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/Zanimaux/Sante/SanteClient.java</file>
+            <file>file:/C:/Users/esprit/Documents/NetBeansProjects/Z-animauxMobile/src/Zanimaux/SOS/Adoption.java</file>
+        </group>
+    </open-files>
+</project-private>
+=======
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/Z'animauxMobile/src/com/esprit/services/UserService.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/Z'animauxMobile/src/com/codename1/uikit/cleanmodern/NewsfeedForm.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/Z'animauxMobile/src/com/codename1/uikit/cleanmodern/SignUpForm.java</file>
@@ -36,3 +50,4 @@
     </open-files>
 </project-private>
 >>>>>>> 12474580dc4c65b923be476ebbc69b3d1faec2fc
+>>>>>>> b267806de350b520e0ffd1e91bed0d93af29a840

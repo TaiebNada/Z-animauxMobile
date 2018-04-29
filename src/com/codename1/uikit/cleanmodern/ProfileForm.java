@@ -38,6 +38,7 @@ import com.codename1.ui.util.Resources;
 import com.esprit.entities.User;
 import com.esprit.services.UserService;
 
+
 /**
  * The user profile form
  *
@@ -50,7 +51,7 @@ public class ProfileForm extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Profile");
+        setTitle("Profile Animal");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -132,4 +133,7 @@ public class ProfileForm extends BaseForm {
                 add(BorderLayout.CENTER, v));
         add(createLineSeparator(0xeeeeee));
     }
+    
+  
+
 }
