@@ -22,6 +22,37 @@ public class Animal {
     private String Description;
     private String imagePath;
     private Image image;
+    private String Type;
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+
+    public Animal(int id, String Espece, String Race, String Sexe, String Nom, String Taille, String Description, Image image, String Type) {
+        this.id = id;
+        this.Espece = Espece;
+        this.Race = Race;
+        this.Sexe = Sexe;
+        this.Nom = Nom;
+        this.Taille = Taille;
+        this.Description = Description;
+        this.image = image;
+        this.Type = Type;
+    }
+
+    public Animal(String Espece, String Race, String Sexe, String Nom, String Taille, String Description, String Type) {
+        this.Espece = Espece;
+        this.Race = Race;
+        this.Sexe = Sexe;
+        this.Nom = Nom;
+        this.Taille = Taille;
+        this.Description = Description;
+        this.Type = Type;
+    }
 
     public Animal(int id, String Race, String Nom, Image image) {
         this.id = id;
@@ -45,8 +76,6 @@ public class Animal {
         this.imagePath = imagePath;
     }
 
-    
-
     public String getImagePath() {
         return imagePath;
     }
@@ -54,7 +83,7 @@ public class Animal {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-    
+
     public Animal() {
     }
 
@@ -67,7 +96,7 @@ public class Animal {
         this.Taille = Taille;
         this.Description = Description;
     }
-   
+
     /**
      * @return the id
      */

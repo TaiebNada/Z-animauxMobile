@@ -51,6 +51,7 @@ import com.esprit.entities.Animaux;
 import com.esprit.services.AnimalService;
 import com.esprit.services.AnimauxService;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The SanteClient form
@@ -119,8 +120,6 @@ public class SanteClient extends BaseForm {
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton all = RadioButton.createToggle("Mes Animaux", barGroup);
         all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Cartes Santé", barGroup);
-        featured.setUIID("SelectBar");
         RadioButton popular = RadioButton.createToggle("Contacter véterinaire", barGroup);
         popular.setUIID("SelectBar");
         RadioButton myFavorite = RadioButton.createToggle("MyTTest", barGroup);
@@ -128,7 +127,7 @@ public class SanteClient extends BaseForm {
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
+                GridLayout.encloseIn(3, all, popular, myFavorite),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -139,7 +138,7 @@ public class SanteClient extends BaseForm {
             updateArrowPosition(all, arrow);
         });
         bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
+      
         bindButtonSelection(popular, arrow);
         bindButtonSelection(myFavorite, arrow);
 
@@ -147,21 +146,33 @@ public class SanteClient extends BaseForm {
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
-        AnimauxService s = new AnimauxService();
-            ArrayList<Animaux> liste = s.getListAnimaux();
-            for (Animaux li : liste) {
-                addButton(li.getImage(), li.getNom(), false, 26, 32);
-                System.out.println("uykgukgyukygu");
-            }/*
-        all.addActionListener((evt) -> {
+
+        /* all.addActionListener((evt) -> {
             AnimauxService s = new AnimauxService();
             ArrayList<Animaux> liste = s.getListAnimaux();
             for (Animaux li : liste) {
                 addButton(li.getImage(), li.getNom(), false, 26, 32);
                 System.out.println("uykgukgyukygu");
             }
+        });*/
+        all.addActionListener((evt) -> {
+            AnimauxService serviceTask = new AnimauxService();
+            ArrayList<Animaux> lis = serviceTask.getList();
+            for (Animaux li : lis) {
+                addButton(li.getImage(), li.getNom(), true, 26, 32,li.getId(), li);
+            }
+
         });
-*/
+
+       /*  carte.addActionListener((evt) -> {
+            AnimauxService serviceTask = new AnimauxService();
+            ArrayList<Animaux> lis = serviceTask.getList();
+            for (Animaux li : lis) {
+                addButton(li.getImage(), li.getNom(), true, 26, 32,li.getId(), li);
+            }
+
+        });*/
+
     }
 
     private void updateArrowPosition(Button b, Label arrow) {
@@ -208,7 +219,7 @@ public class SanteClient extends BaseForm {
         swipe.addTab("", page1);
     }
 
-    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount) {
+    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, int id, Animaux li) {
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
         Button image = new Button(img.fill(width, height));
@@ -238,7 +249,17 @@ public class SanteClient extends BaseForm {
                         BoxLayout.encloseX(likes, comments)
                 ));
         add(cnt);
-        image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
+
+        //System.out.println("le id est " + id);
+
+        image.addActionListener((evt) -> {
+            ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
+            System.out.println("le nom  est" + li.getNom());
+
+            profilAnimal.setA(li);
+            new profilAnimal().show();
+        });
+
     }
 
     private void bindButtonSelection(Button b, Label arrow) {
