@@ -18,16 +18,24 @@
  */
 package Zanimaux.SOS;
 
+import com.codename1.capture.Capture;
+import com.esprit.entities.Spot;
 import com.codename1.uikit.cleanmodern.*;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
+import com.codename1.googlemaps.MapContainer;
+import com.codename1.googlemaps.MapLayout;
+import com.codename1.maps.Coord;
+import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
+import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -35,6 +43,8 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -44,6 +54,7 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.esprit.entities.Animal;
 import com.esprit.services.AnimalService;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +63,8 @@ import java.util.ArrayList;
  * @author Shai Almog
  */
 public class Adoption extends BaseForm {
+
+    public static Animal an;
 
     public Adoption(Resources res) {
         super("Newsfeed", BoxLayout.y());
@@ -116,14 +129,14 @@ public class Adoption extends BaseForm {
         Adoption.setUIID("SelectBar");
         RadioButton Adheration = RadioButton.createToggle("Adheration", barGroup);
         Adheration.setUIID("SelectBar");
-        RadioButton Bulle = RadioButton.createToggle("Bulle", barGroup);
-        Bulle.setUIID("SelectBar");
+        RadioButton Signalement = RadioButton.createToggle("Signalement", barGroup);
+        Signalement.setUIID("SelectBar");
         RadioButton Spot = RadioButton.createToggle("Spot", barGroup);
         Spot.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, Adoption, Adheration, Bulle, Spot),
+                GridLayout.encloseIn(4, Adoption, Adheration, Signalement, Spot),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -135,7 +148,7 @@ public class Adoption extends BaseForm {
         });
         bindButtonSelection(Adoption, arrow);
         bindButtonSelection(Adheration, arrow);
-        bindButtonSelection(Bulle, arrow);
+        bindButtonSelection(Signalement, arrow);
         bindButtonSelection(Spot, arrow);
 
         // special case for rotation
@@ -152,9 +165,53 @@ public class Adoption extends BaseForm {
         });
 
         Adheration.addActionListener((evt) -> {
-            new Adheration().show();
+            new Adheration(res).show();
         });
 
+        Spot.addActionListener((ActionEvent evt) -> {
+            Form mapDemo = new Form("Maps", new LayeredLayout());
+            /* mapDemo.getToolbar().addMaterialCommandToSideMenu("Hi", FontImage.MATERIAL_3D_ROTATION, e -> {
+            });*/
+            if (BrowserComponent.isNativeBrowserSupported()) {
+                //MapContainer mc = new MapContainer("AIzaSyDwoZZyXXZHqY_ud-_-yaNdxwzAdaePKls");
+                MapContainer mc = new MapContainer();
+                mapDemo.add(mc);
+                Container markers = new Container();
+                AnimalService serviceTask = new AnimalService();
+                ArrayList<Spot> lis = serviceTask.getListSpot();
+
+                markers.setLayout(new MapLayout(mc, markers));
+                mapDemo.add(markers);
+
+                for (Spot li : lis) {
+                    Coord moscone = new Coord(li.getLatitude(), li.getLongitude());
+                    Button mosconeButton = new Button("");
+                    mosconeButton.addActionListener((evt1) -> {
+                        Dialog d = new Dialog(li.getNom());
+                        try {
+                            d.add(Image.createImage(li.getImage()));
+                        } catch (IOException ex) {
+                          
+                        }
+                        //Dialog.show(title, mc, cmds, TOP, selectedWalkthru)
+                        d.show();
+                    });
+                    FontImage.setMaterialIcon(mosconeButton, FontImage.MATERIAL_PLACE);
+                    markers.add(moscone, mosconeButton);
+                    mc.zoom(moscone, 5);
+                }
+
+            } else {
+                // iOS Screenshot process...
+                mapDemo.add(new Label("Loading, please wait...."));
+            }
+            mapDemo.show();
+
+        });
+
+        Signalement.addActionListener((evt) -> {
+            new Signalement(res).show();
+        });
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

@@ -6,6 +6,7 @@
 package com.esprit.entities;
 
 import com.codename1.ui.Image;
+import com.codename1.ui.Label;
 
 /**
  *
@@ -24,6 +25,19 @@ public class Animal {
     private Image image;
     private String Type;
 
+    public Animal(String Espece, String Race, String Sexe, String Nom, String Taille, String Description, String Type ,String imagePath) {
+        this.Espece = Espece;
+        this.Race = Race;
+        this.Sexe = Sexe;
+        this.Nom = Nom;
+        this.Taille = Taille;
+        this.Description = Description;
+        this.imagePath = imagePath;
+        this.Type = Type;
+    }
+
+    
+    
     public String getType() {
         return Type;
     }

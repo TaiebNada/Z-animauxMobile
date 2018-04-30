@@ -4,18 +4,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/esprit/entities/Comment.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/BaseForm.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/esprit/entities/Animal.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/CleanModern.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/Adheration.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/Adoption.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/ActivateForm.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/build.xml</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/googlemaps/MapContainer.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/Signalement.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/ProfileForm.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/NewsfeedForm.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/SignInForm.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/esprit/services/AnimalService.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/WalkthruForm.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/CleanModern.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/Adoption.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/com/codename1/uikit/cleanmodern/ActivateForm.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/build.xml</file>
+            <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/Spot.java</file>
             <file>file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/src/Zanimaux/SOS/DetailAdoption.java</file>
+            <file>jar:file:/C:/Users/ADMIN/Documents/GitHub/Z-animauxMobile/lib/CodenameOne_SRC.zip!/com/codename1/ui/Command.java</file>
         </group>
     </open-files>
 </project-private>
