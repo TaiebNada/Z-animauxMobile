@@ -20,7 +20,6 @@
 package com.codename1.uikit.cleanmodern;
 
 import com.codename1.components.FloatingHint;
-import com.codename1.messaging.Message;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
@@ -38,6 +37,12 @@ import com.esprit.services.UserService;
 import java.util.Random;
 
 import com.codename1.io.Log;
+import com.codename1.messaging.Message;
+import static com.codename1.messaging.Message.sendMessage;
+import static com.codename1.ui.events.ActionEvent.Type.Response;
+import com.esprit.services.ReclamationService;
+import java.io.IOException;
+import java.util.Map;
 //import java.net.PasswordAuthentication;
 
 
@@ -168,28 +173,69 @@ public class SignUpForm extends BaseForm {
        
           
             System.out.println("le a est : "+getCode());
-     Message m = new Message("Votre code d'inscription est : "+getCode());
+     //Message m = new Message("Votre code d'inscription est : "+getCode());
 //m.getAttachments().put(textAttachmentUri, "text/plain");
 //m.getAttachments().put(imageAttachmentUri, "image/png");
-Display.getInstance().sendMessage(new String[] {email.getText()}, "Confirmation de votre code ", m);
+//sendMessage(new String[] {email.getText()}, "Confirmation de votre code ", m);
+                 /*switch(Display.getInstance().getSMSSupport()) {
+                case Display.SMS_NOT_SUPPORTED:
+                return;
+                case Display.SMS_SEAMLESS:
+                {
+                try {
+                showUIDialogToEditMessageData();
+                Display.getInstance().sendSMS("54811120", "fffff");
+                } catch (Exception ex) {
+                System.out.println("eee");            }
+                }
+                return;
+                default:
+                {
+                try {
+                Display.getInstance().sendSMS("54811120", "ffffff");
+                } catch (Exception ex) {
+                System.out.println("eee");
+                }
+                }
+                return;
+                }*/
+                
+//Display.getInstance().getSMSSupport();
+//Display.getInstance().sendSMS("54811120", "My SMS Message");
+//Display.getInstance().set("+999999999", "My SMS Message");
+             //   System.out.println("succes");
 
 
-            
-//UserService ser = new UserService();
-          //  User R = new User(username.getText(),email.getText(),password.getText());
-            //User R = new User("nadddou","email de nada","123456");
-            //ser.ajoutUser(R);
-           // System.out.println(username.getText());
-       setUsernameU(username.getText());
+
+             ReclamationService ser = new ReclamationService();
+             ser.Mail(email.getText(),getCode());
+             
+             
+             
+             setUsernameU(username.getText());
        setEmailU(email.getText());
        setPasswordU(password.getText());
-       
-          //  System.out.println(getCode());
-       
-       
        new ActivateForm(res).show();
 
-        });
+
+//Display.getInstance().setSMS("+999999999", "My SMS Message");
+//Message m = new Message("essai");
+//Message m = new Message("one");
+
+//m.setMimeType(Message.MIME_HTML);
+//boolean success = true;
+// notice that we provide a plain text alternative as well in the send method
+//m.sendMessageViaCloud("nadataieb6@gmail.com", "nada.taieb6@esprit.tn", "aaaaaa", "jjjj", "ffffff");
+            
+/*if (success) System.out.println("succes");
+else System.out.println("errerrr");
+            */  
+
+});
+            
+
+       
+        
   
 
 

@@ -71,7 +71,7 @@ public class UserService {
       public void UpdateProfile(User ta) 
     {
         ConnectionRequest con = new ConnectionRequest();
-       String Url = "http://localhost/ProjetPi2/web/app_dev.php/Boutique/update2/3?username="+ta.getUser()+"&email="+ta.getEmail()+"&password="+ta.getPassword();
+       String Url = "http://localhost/ProjetPi2/web/app_dev.php/Boutique/update2/"+ta.getId()+"?username="+ta.getUser()+"&email="+ta.getEmail()+"&password="+ta.getPassword();
        con.setUrl(Url);
         //System.out.println("tt");
         con.addResponseListener((e) -> {

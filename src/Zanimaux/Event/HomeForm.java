@@ -25,6 +25,7 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.list.MultiList;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
@@ -49,6 +50,7 @@ import java.util.Map;
 public class HomeForm extends BaseForm {
 
     Form f;
+     Form ha;
     TextField tnom;
     TextField tetat;
      TextField tnbrmax;
@@ -57,7 +59,7 @@ public class HomeForm extends BaseForm {
         TextField timage;
         
         TextField tdescription;
-    Button btnajout,btnaff;
+    Button btnajout,btnprecedant,btnaff;
 
     public HomeForm(Resources res) {
         
@@ -88,12 +90,24 @@ public class HomeForm extends BaseForm {
         Label  llieu =new Label("lieu evenement");
         Label  limage =new Label("image evenement");
         Label  lnbrmax =new Label("nbrmax evenement");
+        
+       
+Picker datePicker = new Picker();
+datePicker.setType(Display.PICKER_TYPE_DATE);
+
+
+
+
+datePicker.setDate(new Date());
+
+ datePicker.setUIID("TextFieldBlack");
 Label  ldescription =new Label("description evenement");
+
         btnajout = new Button("ajouter");
         
-         
+         btnprecedant = new Button("precedant");
         
-      
+      add(btnprecedant);
           add(lnom);
         add(tnom);
            add(llieu);
@@ -105,14 +119,21 @@ Label  ldescription =new Label("description evenement");
         add(tnbrmax);
            add(ldescription);
         add(tdescription);
+                
+
+                add(datePicker);
+
            add(limage);
         add(timage);
         timage.setEditable(false);
         Button upload = new Button("upload");
+        
+        
         add(upload);
         add(btnajout);
+         btnprecedant.addActionListener(e -> new Affichage(res).show());
 upload.addActionListener(new ActionListener() {
-        
+       
             
            
             public void actionPerformed(ActionEvent ev) {
@@ -140,7 +161,7 @@ upload.addActionListener(new ActionListener() {
    
         btnajout.addActionListener((e) -> {
             ServiceEvenement ser = new ServiceEvenement();
-            Evenement m = new Evenement( tnom.getText(), ttheme.getText(),tlieu.getText(),0,50,timage.getText(),tdescription.getText());
+            Evenement m = new Evenement( tnom.getText(), ttheme.getText(),tlieu.getText(),0,50,timage.getText(),tdescription.getText(),datePicker.getDate());
            ser.ajoutevenement(m);
             
 
