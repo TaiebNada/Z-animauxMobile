@@ -23,15 +23,19 @@ import com.codename1.components.FloatingHint;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.esprit.entities.User;
+import com.esprit.services.UserService;
 
 /**
  * Account activation UI
@@ -39,6 +43,31 @@ import com.codename1.ui.util.Resources;
  * @author Shai Almog
  */
 public class ActivateForm extends BaseForm {
+    //public static String u =SignUpForm.getUsernameU();
+    //public static String em = SignUpForm.getEmailU();
+    //public static String p =SignUpForm.getPasswordU();
+    
+    public String getU()
+    {
+        return SignUpForm.getUsernameU();
+    }
+    public String getE()
+    {
+        return SignUpForm.getPasswordU();
+    }
+    public String getP()
+    {
+        return SignUpForm.getPasswordU();
+    }
+    public int getC()
+    {
+        return SignUpForm.getCode();
+    }
+    
+    
+    
+    
+    
 
     public ActivateForm(Resources res) {
         super(new BorderLayout());
@@ -79,7 +108,35 @@ public class ActivateForm extends BaseForm {
         content.setScrollableY(true);
         add(BorderLayout.SOUTH, content);
         signUp.requestFocus();
-        signUp.addActionListener(e -> new NewsfeedForm(res).show());
+        
+        {signUp.addActionListener(e -> {
+                    System.out.println("le b est : "+getC());
+            if (code.getText().equals(String.valueOf(getC())))
+            {
+               
+                
+                UserService ser = new UserService();
+                User R1 = new User(getU(),getE(),getP());
+                ser.ajoutUser(R1);
+                
+                new NewsfeedForm(res).show();
+           }
+           else 
+            //System.out.println("erreeeeur");
+            
+            { final Button showPopup = new Button("Show Popup");
+            Dialog d = new Dialog("Popup Title");
+        TextArea popupBody = new TextArea("The confirmation code is incorrect", 3, 10);
+        popupBody.setUIID("PopupBody");
+        popupBody.setEditable(false);
+        d.setLayout(new BorderLayout());
+        d.add(BorderLayout.CENTER, popupBody);
+        d.showPopupDialog(showPopup);}
+        });
+        
+            
     }
-    
+    }
 }
+    
+
