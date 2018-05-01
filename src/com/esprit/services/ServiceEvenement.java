@@ -120,19 +120,20 @@ public class ServiceEvenement {
                  float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
                   
                 e.setNbr_participant((int)nbr);
-                try{
-           Date date;
-       
-        SimpleDateFormat sdfr= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                   
+   try{
+	Date date;
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
        System.out.println(obj.get("dateEvenement").toString());
                String a =obj.get("dateEvenement").toString();
+               System.out.println(obj.get("dateEvenement"));
                     date = sdfr.parse(a);
-                  
                     e.setDate_evenement(date);
    }catch (Exception ex ){
 	System.out.println(ex);
    }
-
                 System.out.println("get listeebenemeny");
                         System.out.println(e);
                 listEvenement.add(e);
