@@ -118,6 +118,9 @@ public class ActivateForm extends BaseForm {
                 UserService ser = new UserService();
                 User R1 = new User(getU(),getE(),getP());
                 ser.ajoutUser(R1);
+                SignInForm.setUsernameU(SignUpForm.getUsernameU());
+                SignInForm.setEmailU(SignUpForm.getEmailU());
+                SignInForm.setPasswordU(SignUpForm.getPasswordU());
                 
                 new NewsfeedForm(res).show();
            }
