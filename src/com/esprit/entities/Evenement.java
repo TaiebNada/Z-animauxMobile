@@ -25,7 +25,7 @@ public class Evenement {
     String image_evenement;
      public String  description_evenement;
     public Date date_evenement;
-
+int idutil;
     public Evenement( String nom_evenement, String theme_evenement, String lieu_evenement,int nbr_participant, int nbr_max_participant, String image_evenement, String description_evenement,Date date_evenement) {
         
         this.nom_evenement = nom_evenement;
@@ -37,6 +37,19 @@ public class Evenement {
         this.image_evenement = image_evenement;
         this.description_evenement = description_evenement;
         this.date_evenement = date_evenement;
+    }
+
+    public Evenement(int id, String nom_evenement, String theme_evenement, String lieu_evenement, int nbr_participant, int nbr_max_participant, String image_evenement, String description_evenement, Date date_evenement, int idutil) {
+        this.id = id;
+        this.nom_evenement = nom_evenement;
+        this.theme_evenement = theme_evenement;
+        this.lieu_evenement = lieu_evenement;
+        this.nbr_participant = nbr_participant;
+        this.nbr_max_participant = nbr_max_participant;
+        this.image_evenement = image_evenement;
+        this.description_evenement = description_evenement;
+        this.date_evenement = date_evenement;
+        this.idutil = idutil;
     }
 
     public Date getDate_evenement() {
@@ -124,6 +137,14 @@ public class Evenement {
 
     public void setDescription_evenement(String description_evenement) {
         this.description_evenement = description_evenement;
+    }
+
+    public int getIdutil() {
+        return idutil;
+    }
+
+    public void setIdutil(int idutil) {
+        this.idutil = idutil;
     }
 
    

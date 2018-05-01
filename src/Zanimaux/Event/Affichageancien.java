@@ -64,12 +64,12 @@ import java.util.Map;
  *
  * @author sana
  */
-public class Affichage extends BaseForm {
+public class Affichageancien extends BaseForm {
 
     Form f;
     SpanLabel lb;
 
-    public Affichage(Resources res) {
+    public Affichageancien(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -197,7 +197,7 @@ public class Affichage extends BaseForm {
                             System.out.println(datec.getTime());
                             System.out.println(datenow.getTime());
                             System.out.println(k);
-if (k<0){
+if (k>=0){
                                 Evenement e = new Evenement();
 
                                 // System.out.println(obj.get("id"));
@@ -284,7 +284,7 @@ if (k<0){
         add(comments);
         Button detail = new Button("detail evenement");
         add(detail);
-        detail.addActionListener(e -> new detailevenement(res, eve).show());
+        detail.addActionListener(e -> new detailevenementanciens(res, eve).show());
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

@@ -34,7 +34,7 @@ public class ServiceEvenement {
 
     public void ajoutevenement(Evenement e) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement()+ "& themeEvenement="+  e.getTheme_evenement()+ "& lieuEvenement=" + e.getLieu_evenement()+ "& nbrMAXParticipant=" +0+"& nbrParticipant=" + 50+"& imageEvenement=" + e.getImage_evenement()+ "& descriptionEvenement=" + e.getDescription_evenement()+"& dateEvenement=" + e.getDate_evenement();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement()+ "& themeEvenement="+  e.getTheme_evenement()+ "& lieuEvenement=" + e.getLieu_evenement()+ "& nbrMAXParticipant=" +0+"& nbrParticipant=" + 50+"& imageEvenement=" + e.getImage_evenement()+ "& descriptionEvenement=" + e.getDescription_evenement()+"& dateEvenement=" + e.getDate_evenement()+ "& idutil=" + e.getIdutil();
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -51,7 +51,7 @@ public class ServiceEvenement {
     
             public void ajoutCommentaire(Commentaire_evenement e,int id) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire"+id+"?Comm=" + e.getComm()+ "& EvenementA="+  e.getEvenementA()+ "& Nom_user=" + e.getNom_user()+ "& Email_user=" + e.getEmail_user()+ "& DateCommentaire=" + e.getDateCommentaire();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire"+id+"?Comm=" + e.getComm()+ "& EvenementA="+  e.getEvenementA()+ "& Nom_user=" + e.getNom_user()+ "& Email_user=" + e.getEmail_user()+ "& DateCommentaire=" + e.getDateCommentaire()+ "& idutil=" + e.getIdutil();
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -82,6 +82,35 @@ public class ServiceEvenement {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+   public void supprimereve(Evenement eve) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/supprimerrev"+eve.getId();
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((x) -> {
+            String str = new String(con.getResponseData());
+            
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    public void supprimercom(Commentaire_evenement com) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/supprimerrcom"+com.getId();
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((x) -> {
+            String str = new String(con.getResponseData());
+            
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+  
     public ArrayList<Evenement> getListEvenement(String json) {
 
         ArrayList<Evenement> listEvenement = new ArrayList<>();
@@ -120,7 +149,7 @@ public class ServiceEvenement {
                  float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
                   
                 e.setNbr_participant((int)nbr);
-                   
+                
    try{
 	Date date;
       	//String date;
@@ -133,7 +162,8 @@ public class ServiceEvenement {
                     e.setDate_evenement(date);
    }catch (Exception ex ){
 	System.out.println(ex);
-   }
+   }     
+  
                 System.out.println("get listeebenemeny");
                         System.out.println(e);
                 listEvenement.add(e);
@@ -274,7 +304,19 @@ String t;
         return listCommentaire_evenement;
     }
      
-     
+      public ArrayList<Commentaire_evenement> verifsupp(int id){       
+        ConnectionRequest con = new ConnectionRequest();
+       con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/verifsupp"+id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                ServiceEvenement ser = new ServiceEvenement();
+                listCommentaire_evenement = ser.getListCommentaire_evenement(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listCommentaire_evenement;
+    }
      
      
      
@@ -343,7 +385,6 @@ e.setComm(obj.get("comm").toString());
     
   
   return listCommentaire_evenement;}
-    
     
     }
 

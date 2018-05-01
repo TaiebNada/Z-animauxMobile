@@ -34,6 +34,7 @@ import java.io.IOException;
 
 import com.codename1.ui.Image;
 import com.codename1.ui.util.ImageIO;
+import com.codename1.uikit.cleanmodern.SignInForm;
 import java.io.OutputStream;
 
 import java.util.ArrayList;
@@ -187,9 +188,13 @@ commentaire.setUIID("TextFieldBlack");
             Commentaire_evenement Commentaire_evenement=new Commentaire_evenement();
           Commentaire_evenement.setComm(commentaire.getText());
           Commentaire_evenement.setEvenementA(eve);
-          Commentaire_evenement.setNom_user("jalloul");
-          Commentaire_evenement.setEmail_user("djoedon12@gmail.com");
-         String format = "yyyy/MM/dd HH:mm:ss"; 
+          int id_user=SignInForm.getIdU();
+          String nom_user=SignInForm.getUsernameU();
+          String mail_user=SignInForm.getEmailU();
+          Commentaire_evenement.setNom_user(nom_user);
+          Commentaire_evenement.setEmail_user(mail_user);
+          Commentaire_evenement.setIdutil(id_user);
+         String format = "dd/MM/yyyy"; 
 
 java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat( format ); 
 java.util.Date date = new java.util.Date(); 

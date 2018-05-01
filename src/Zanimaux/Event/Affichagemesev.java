@@ -49,6 +49,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
+import com.codename1.uikit.cleanmodern.SignInForm;
 import com.esprit.services.ServiceEvenement;
 import com.esprit.entities.Evenement;
 
@@ -64,12 +65,12 @@ import java.util.Map;
  *
  * @author sana
  */
-public class Affichage extends BaseForm {
+public class Affichagemesev extends BaseForm {
 
     Form f;
     SpanLabel lb;
 
-    public Affichage(Resources res) {
+    public Affichagemesev(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -191,13 +192,18 @@ public class Affichage extends BaseForm {
                             System.out.println("datenow"+dateFormat.format(datenow));
                             datec=dateFormat.parse(a);
                             date = sdfr.parse(a);
-                        
+                         Evenement n = new Evenement();
+
+                                // System.out.println(obj.get("id"));
+                                float idu = Float.parseFloat(obj.get("id").toString());
+                                System.out.println(idu);
+                                n.setId((int) idu);
                             
                           double k= (double)(datenow.getTime()- datec.getTime());
                             System.out.println(datec.getTime());
                             System.out.println(datenow.getTime());
                             System.out.println(k);
-if (k<0){
+if (n.getIdutil()==SignInForm.getIdU()){
                                 Evenement e = new Evenement();
 
                                 // System.out.println(obj.get("id"));
@@ -282,9 +288,10 @@ if (k<0){
         add(likes);
 
         add(comments);
-        Button detail = new Button("detail evenement");
-        add(detail);
-        detail.addActionListener(e -> new detailevenement(res, eve).show());
+        Button supprimerbt = new Button("supprimer");
+       ServiceEvenement ser = new ServiceEvenement();
+        add(supprimerbt);
+        supprimerbt.addActionListener(e -> ser.supprimereve(eve));
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

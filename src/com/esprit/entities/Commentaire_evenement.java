@@ -21,7 +21,7 @@ public class Commentaire_evenement {
      public String nom_user ;
      String email_user;
      Date dateCommentaire; 
-
+      int idutil;
     public Commentaire_evenement() {
     }
 
@@ -39,6 +39,16 @@ public class Commentaire_evenement {
         this.nom_user = nom_user;
         this.email_user = email_user;
         this.dateCommentaire = dateCommentaire;
+    }
+
+    public Commentaire_evenement(int id, Evenement EvenementA, String comm, String nom_user, String email_user, Date dateCommentaire, int idutil) {
+        this.id = id;
+        this.EvenementA = EvenementA;
+        this.comm = comm;
+        this.nom_user = nom_user;
+        this.email_user = email_user;
+        this.dateCommentaire = dateCommentaire;
+        this.idutil = idutil;
     }
 
     public int getId() {
@@ -87,6 +97,14 @@ public class Commentaire_evenement {
 
     public void setDateCommentaire(Date dateCommentaire) {
         this.dateCommentaire = dateCommentaire;
+    }
+
+    public int getIdutil() {
+        return idutil;
+    }
+
+    public void setIdutil(int idutil) {
+        this.idutil = idutil;
     }
 
     
