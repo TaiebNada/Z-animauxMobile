@@ -25,7 +25,6 @@ import java.util.List;
 
 import java.util.Map;
 
-
 /**
  *
  * @author sana
@@ -34,11 +33,10 @@ public class ServiceEvenement {
 
     public void ajoutevenement(Evenement e) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement()+ "& themeEvenement="+  e.getTheme_evenement()+ "& lieuEvenement=" + e.getLieu_evenement()+ "& nbrMAXParticipant=" +0+"& nbrParticipant=" + 50+"& imageEvenement=" + e.getImage_evenement()+ "& descriptionEvenement=" + e.getDescription_evenement();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement() + "& themeEvenement=" + e.getTheme_evenement() + "& lieuEvenement=" + e.getLieu_evenement() + "& nbrMAXParticipant=" + 0 + "& nbrParticipant=" + 50 + "& imageEvenement=" + e.getImage_evenement() + "& descriptionEvenement=" + e.getDescription_evenement();
         con.setUrl(Url);
 
         //System.out.println("tt");
-
         con.addResponseListener((x) -> {
             String str = new String(con.getResponseData());
             System.out.println(str);
@@ -46,16 +44,13 @@ public class ServiceEvenement {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
-    
-    
-    
-            public void ajoutCommentaire(Commentaire_evenement e,int id) {
+
+    public void ajoutCommentaire(Commentaire_evenement e, int id) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire"+id+"?Comm=" + e.getComm()+ "& EvenementA="+  e.getEvenementA()+ "& Nom_user=" + e.getNom_user()+ "& Email_user=" + e.getEmail_user()+ "& DateCommentaire=" + e.getDateCommentaire();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire" + id + "?Comm=" + e.getComm() + "& EvenementA=" + e.getEvenementA() + "& Nom_user=" + e.getNom_user() + "& Email_user=" + e.getEmail_user() + "& DateCommentaire=" + e.getDateCommentaire();
         con.setUrl(Url);
 
         //System.out.println("tt");
-
         con.addResponseListener((x) -> {
             String str = new String(con.getResponseData());
             System.out.println(str);
@@ -63,25 +58,20 @@ public class ServiceEvenement {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
-            
-            
-            
-            
-            
-  public void jeparticipe(int id) {
+
+    public void jeparticipe(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Participerr"+id;
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Participerr" + id;
         con.setUrl(Url);
 
         //System.out.println("tt");
-
         con.addResponseListener((x) -> {
             String str = new String(con.getResponseData());
-            
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+
     public ArrayList<Evenement> getListEvenement(String json) {
 
         ArrayList<Evenement> listEvenement = new ArrayList<>();
@@ -91,8 +81,7 @@ public class ServiceEvenement {
             JSONParser j = new JSONParser();
 
             Map<String, Object> Evenements = j.parseJSON(new CharArrayReader(json.toCharArray()));
-            
-           
+
             List<Map<String, Object>> list = (List<Map<String, Object>>) Evenements.get("root");
 
             for (Map<String, Object> obj : list) {
@@ -104,27 +93,23 @@ public class ServiceEvenement {
                 e.setId((int) id);
                 //e.setId(Integer.parseInt(obj.get("id").toString().trim()));
                 e.setNom_evenement(obj.get("nomEvenement").toString());
-                 e.setTheme_evenement(obj.get("themeEvenement").toString());
-               
-                  e.setLieu_evenement(obj.get("lieuEvenement").toString());
-                   e.setImage_evenement(obj.get("imageEvenement").toString());
-                   
-                   e.setDescription_evenement(obj.get("descriptionEvenement").toString());
-                   
-                   
-                    float max = Float.parseFloat(obj.get("nbrMAXParticipant").toString());
-                   
-                e.setNbr_max_participant((int)max);
-                
-                
-                 float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
-                  
-                e.setNbr_participant((int)nbr);
-                
-           
+                e.setTheme_evenement(obj.get("themeEvenement").toString());
+
+                e.setLieu_evenement(obj.get("lieuEvenement").toString());
+                e.setImage_evenement(obj.get("imageEvenement").toString());
+
+                e.setDescription_evenement(obj.get("descriptionEvenement").toString());
+
+                float max = Float.parseFloat(obj.get("nbrMAXParticipant").toString());
+
+                e.setNbr_max_participant((int) max);
+
+                float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
+
+                e.setNbr_participant((int) nbr);
 
                 System.out.println("get listeebenemeny");
-                        System.out.println(e);
+                System.out.println(e);
                 listEvenement.add(e);
 
             }
@@ -135,13 +120,12 @@ public class ServiceEvenement {
         return listEvenement;
 
     }
-    
-    
+
     ArrayList<Evenement> listEvenements = new ArrayList<>();
-    
-    public ArrayList<Evenement> getList2(){       
+
+    public ArrayList<Evenement> getList2() {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/Alll");  
+        con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/Alll");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -152,7 +136,7 @@ public class ServiceEvenement {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listEvenements;
     }
-       String lista ;
+    String lista;
 
     public ArrayList<Participant> getListParticipant(String json) {
 
@@ -163,8 +147,7 @@ public class ServiceEvenement {
             JSONParser j = new JSONParser();
 
             Map<String, Object> Participants = j.parseJSON(new CharArrayReader(json.toCharArray()));
-            
-           
+
             List<Map<String, Object>> list = (List<Map<String, Object>>) Participants.get("root");
 
             for (Map<String, Object> obj : list) {
@@ -175,24 +158,20 @@ public class ServiceEvenement {
                 System.out.println(id);
                 e.setId((int) id);
                 //e.setId(Integer.parseInt(obj.get("id").toString().trim()));
-               
-                
-                   
-                   
-                    float user_id = Float.parseFloat(obj.get("user_id").toString());
-                   
-                e.setUser_id((int)user_id);
-                
-                
-                 float evenement_id = Float.parseFloat(obj.get("evenement_id").toString());
-                  
-                e.setEvenement_id((int)evenement_id);
-                
-            float Participer = Float.parseFloat(obj.get("Participer").toString());
-                  
-                e.setParticiper((int)Participer);
+
+                float user_id = Float.parseFloat(obj.get("user_id").toString());
+
+                e.setUser_id((int) user_id);
+
+                float evenement_id = Float.parseFloat(obj.get("evenement_id").toString());
+
+                e.setEvenement_id((int) evenement_id);
+
+                float Participer = Float.parseFloat(obj.get("Participer").toString());
+
+                e.setParticiper((int) Participer);
                 System.out.println("get listeebenemeny");
-                        System.out.println(e);
+                System.out.println(e);
                 listParticipant.add(e);
 
             }
@@ -203,55 +182,54 @@ public class ServiceEvenement {
         return listParticipant;
 
     }
-        ArrayList<Participant> listParticipants = new ArrayList<>();
+    ArrayList<Participant> listParticipants = new ArrayList<>();
 
-public ArrayList<Participant> existe(int id){       
+    public ArrayList<Participant> existe(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url=("http://localhost/pi2/web/app_dev.php/Bienetre/Existe"+id);  
-       con.setUrl(Url);
+        String Url = ("http://localhost/pi2/web/app_dev.php/Bienetre/Existe" + id);
+        con.setUrl(Url);
 
         //System.out.println("tt");
-
         con.addResponseListener((x) -> {
             String str = new String(con.getResponseData());
-             ServiceEvenement ser = new ServiceEvenement();
-listParticipants = ser.getListParticipant(new String(con.getResponseData()));
+            ServiceEvenement ser = new ServiceEvenement();
+            listParticipants = ser.getListParticipant(new String(con.getResponseData()));
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listParticipants;
     }
-String t;
-        ArrayList l= new ArrayList<>();
+    String t;
+    ArrayList l = new ArrayList<>();
 
-    public ArrayList siexiste(int id){   
-        
+    public ArrayList siexiste(int id) {
+
         ConnectionRequest con = new ConnectionRequest();
-          String Url=("http://localhost/pi2/web/app_dev.php/Bienetre/Existe"+id);
-          con.setUrl(Url);
+        String Url = ("http://localhost/pi2/web/app_dev.php/Bienetre/Existe" + id);
+        con.setUrl(Url);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 ServiceEvenement ser = new ServiceEvenement();
-                
 
-                String t=new String(con.getResponseData());
-                              l.add(t);
+                String t = new String(con.getResponseData());
+                l.add(t);
 
                 System.out.println(t);
             }
         });
-        
+
         NetworkManager.getInstance().addToQueueAndWait(con);
         System.out.println(t);
-       return l;
-            
-}
-    
+        return l;
+
+    }
+
     ArrayList<Commentaire_evenement> listCommentaire_evenement = new ArrayList<>();
-     public ArrayList<Commentaire_evenement> getList2Commentaire(int id){       
+
+    public ArrayList<Commentaire_evenement> getList2Commentaire(int id) {
         ConnectionRequest con = new ConnectionRequest();
-       con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/AlllCommentaire"+id);
+        con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/AlllCommentaire" + id);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -262,23 +240,17 @@ String t;
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listCommentaire_evenement;
     }
-     
-     
-     
-     
-     
-   
+
     public ArrayList<Commentaire_evenement> getListCommentaire_evenement(String json) {
- 
+
         ArrayList<Commentaire_evenement> listCommentaire_evenement = new ArrayList<>();
 
         try {
-            
+
             JSONParser jss = new JSONParser();
 
             Map<String, Object> Commentaire_evenements = jss.parseJSON(new CharArrayReader(json.toCharArray()));
-            
-           
+
             List<Map<String, Object>> list4 = (List<Map<String, Object>>) Commentaire_evenements.get("root");
 
             for (Map<String, Object> obj : list4) {
@@ -289,9 +261,8 @@ String t;
                 System.out.println(id);
                 e.setId((int) id);
                 //e.setId(Integer.parseInt(obj.get("id").toString().trim()));
-               
-                
-             /*       e.setComm(obj.get("comm").toString());
+
+                /*       e.setComm(obj.get("comm").toString());
                     e.setNom_user(obj.get("Nom_user").toString());
                     DateFormat format = new SimpleDateFormat("MMMM d, yyyy");
                 String a    =obj.get("comm").toString();
@@ -299,25 +270,21 @@ Date date;
                
                     date = format.parse(a);
                     e.setDateCommentaire(date);*/
-               
-   
-   
-    
-   try{
-	Date date;
-       
-        SimpleDateFormat sdfr= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-       System.out.println(obj.get("dateCommentaire").toString());
-               String a    =obj.get("dateCommentaire").toString();
+                try {
+                    Date date;
+
+                    SimpleDateFormat sdfr = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    System.out.println(obj.get("dateCommentaire").toString());
+                    String a = obj.get("dateCommentaire").toString();
                     date = sdfr.parse(a);
                     e.setDateCommentaire(date);
-   }catch (Exception ex ){
-	System.out.println(ex);
-   }
-                    
-e.setComm(obj.get("comm").toString());
-                    e.setNom_user(obj.get("nomuser").toString());
-                 
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+
+                e.setComm(obj.get("comm").toString());
+                e.setNom_user(obj.get("nomuser").toString());
+
                 listCommentaire_evenement.add(e);
 
             }
@@ -325,13 +292,8 @@ e.setComm(obj.get("comm").toString());
         } catch (IOException ex) {
         }
         System.out.println(listCommentaire_evenement);
-        
 
-    
-  
-  return listCommentaire_evenement;}
-    
-    
+        return listCommentaire_evenement;
     }
 
-        
+}

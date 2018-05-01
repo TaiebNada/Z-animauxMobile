@@ -6,61 +6,35 @@
 package Zanimaux.Sante;
 
 import com.codename1.capture.Capture;
-import com.codename1.components.MultiButton;
 import com.codename1.io.FileSystemStorage;
-import com.codename1.io.JSONParser;
-import com.codename1.io.Log;
-import com.codename1.io.MultipartRequest;
-import com.codename1.io.NetworkManager;
-import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import com.codename1.ui.Button;
-import com.codename1.ui.ButtonGroup;
-import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.RadioButton;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.events.SelectionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.list.GenericListCellRenderer;
-import com.codename1.ui.list.MultiList;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
-import com.codename1.util.Callback;
 import com.esprit.entities.Animaux;
-import com.esprit.entities.vet;
-
 import com.esprit.services.AnimauxService;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import javafx.scene.control.DatePicker;
 
 /**
  *
  * @author RYM
  */
-public class ajoutAnimal extends BaseForm {
-
-    Form f;
+public class upadateProfil extends BaseForm{
+     Form f;
 
     Button btnajout, btnaff;
     AnimauxService serviceTask = new AnimauxService();
@@ -68,8 +42,9 @@ public class ajoutAnimal extends BaseForm {
     public static String sexe;
 
     public static String Vet;
+    Animaux an=profilAnimal.a;
 
-    public ajoutAnimal(Resources res) {
+    public upadateProfil() {
 
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
@@ -77,31 +52,32 @@ public class ajoutAnimal extends BaseForm {
         getTitleArea().setUIID("Container");
         setTitle("Ajout");
         getContentPane().setScrollVisible(false);
-        super.addSideMenu(res);
+        //super.addSideMenu(res);
 
-        TextField nom = new TextField("", "nom", 20, TextArea.ANY);
-        TextField description = new TextField("", "description", 20, TextArea.ANY);
-        TextField image = new TextField("", "image", 20, TextArea.ANY);
-        
+        TextField nom = new TextField("",an.getNom() , 20, TextArea.ANY);
+        TextField description = new TextField("", an.getDescription(), 20, TextArea.ANY);
+        TextField image = new TextField("", an.getImagePath(), 20, TextArea.ANY);
+        System.out.println(an.getImage());
+        System.out.println(an.getImagePath());
         Picker dateNaissance = new Picker();
         dateNaissance.setType(Display.PICKER_TYPE_DATE);
         dateNaissance.getFormatter();
-        dateNaissance.setDate(new Date());
+        dateNaissance.setDate(an.getDateNaissance());
 
         Picker vetPicker = new Picker();
         vetPicker.setType(Display.PICKER_TYPE_STRINGS);
         vetPicker.setStrings("validation", "skander", "amany");
-        vetPicker.setSelectedString("validation");
+        vetPicker.setSelectedString(an.getNomVet());
         
         Picker sexePicker = new Picker();
         sexePicker.setType(Display.PICKER_TYPE_STRINGS);
         sexePicker.setStrings("Male", "Female");
-        sexePicker.setSelectedString("Male");
+        sexePicker.setSelectedString(an.getSexe());
         
         Picker especePicker = new Picker();
         especePicker.setType(Display.PICKER_TYPE_STRINGS);
         especePicker.setStrings("Chien", "Chat","Cheval","Oiseaux","Poisson");
-        especePicker.setSelectedString("Chien");
+        especePicker.setSelectedString(an.getEspece());
         
 
         nom.setUIID("TextFieldBlack");
@@ -120,7 +96,7 @@ public class ajoutAnimal extends BaseForm {
         Label limage = new Label("image");
         Label lvet = new Label("vet");
         
-        btnajout = new Button("ajouter");
+        btnajout = new Button("Modifier");
         Button upload = new Button("upload");
         
         
@@ -155,14 +131,23 @@ public class ajoutAnimal extends BaseForm {
 
        btnajout.addActionListener((e) -> {
             AnimauxService ser = new AnimauxService();
-            Animaux a = new Animaux(
-                    nom.getText(), especePicker.getSelectedString(),sexePicker.getSelectedString(),dateNaissance.getDate(), description.getText(), image.getText(),vetPicker.getSelectedString());
-            ser.ajoutAnimal(a);
+            Animaux a = new Animaux(an.getId(),
+                    nom.getText(), especePicker.getSelectedString(),sexePicker.getSelectedString(), description.getText(), image.getText(),vetPicker.getSelectedString());
+            ser.updateAnimal(a);
+           System.out.println(an.getId());
         System.out.println(dateNaissance.getDate());
         System.out.println(vetPicker.getSelectedString());
         System.out.println(especePicker.getSelectedString());
         
-        
+        final Button showPopup = new Button("Show Popup");
+            Dialog d = new Dialog("Modfication Réussie");
+        TextArea popupBody = new TextArea("Profil modifié avec succées ", 3, 10);
+        popupBody.setUIID("PopupBody");
+        popupBody.setEditable(false);
+        d.setLayout(new BorderLayout());
+        d.add(BorderLayout.CENTER, popupBody);
+        d.showPopupDialog(showPopup);
+        new profilAnimal().show();
 
         });
        

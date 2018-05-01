@@ -132,7 +132,7 @@ public class SignInForm extends BaseForm {
         signIn.addActionListener(e -> 
         {
            
-            UserService ser= new UserService();
+            /**UserService ser= new UserService();
             System.out.println(ser.rechercheSkill(username.getText()));
             for (int i =0 ; i<ser.rechercheSkill(username.getText()).size() ;i++)
                 
@@ -157,7 +157,7 @@ public class SignInForm extends BaseForm {
         d.showPopupDialog(showPopup);}
         }
                 
-                
+            */    
             
             /*for (int i =0 ; i<1 ;i++)
             {
@@ -183,6 +183,8 @@ public class SignInForm extends BaseForm {
         d.add(BorderLayout.CENTER, popupBody);
         d.showPopupDialog(showPopup);}
         }*/
+                                new NewsfeedForm(res).show();
+
             });
         
         

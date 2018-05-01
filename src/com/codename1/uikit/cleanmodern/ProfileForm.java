@@ -51,7 +51,7 @@ public class ProfileForm extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Profile Animal");
+        setTitle("Profile");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);

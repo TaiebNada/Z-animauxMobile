@@ -15,9 +15,12 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.ImageIO;
 import com.esprit.entities.Animal;
 import com.esprit.entities.Animaux;
+import com.esprit.entities.User;
+import com.esprit.entities.vet;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,75 +34,7 @@ import java.util.Map;
  */
 public class AnimauxService {
 
-    public ArrayList<Animaux> getListAnimaux() {
-
-        ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/maListeJson";
-        con.setUrl(Url);
-        ArrayList<Animaux> mapPanier = new ArrayList<>();
-        con.addResponseListener((e) -> {
-            String jsonRes = new String(con.getResponseData());
-            try {
-                JSONParser j = new JSONParser();
-
-                Map<String, Object> animaux = j.parseJSON(new CharArrayReader(jsonRes.toCharArray()));
-                System.out.println(animaux);
-                List<Map<String, Object>> list = (List<Map<String, Object>>) animaux.get("root");
-
-                for (Map<String, Object> obj : list) {
-                    Animaux an = new Animaux();
-                    an.setNomVet(obj.get("nomVet").toString());
-                    an.setNom(obj.get("nom").toString());
-                    an.setEspece(obj.get("espece").toString());
-                    an.setDescription(obj.get("description").toString());
-                    an.setSexe(obj.get("sexe").toString());
-                    float poids = Float.parseFloat(obj.get("poids").toString());
-                    int poids2 = (int) poids;
-                    an.setPoids(poids2);
-                    float taille = Float.parseFloat(obj.get("taille").toString());
-                    int taille2 = (int) taille;
-                    an.setTaille(taille2);
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    //an.setDateVaccin((Date)obj.get("dateVaccin"));
-                    //  an.setDateVaccin(sdf.format(new Date((long)Float.parseFloat(obj.get("dateVaccin").toString()))));
-                    //  an.setDateVisiteD((Date)obj.get("dateVisiteD"));
-                    System.out.println("blavkaddz" + an.getNomVet());
-
-                    int mm = Display.getInstance().convertToPixels(3);
-                    an.setImagePath("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString());
-                    EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
-
-                    ImageIO imageio = ImageIO.getImageIO();
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString()),
-                                out,
-                                ImageIO.FORMAT_JPEG,
-                                100, 100, 1);
-                    } catch (IOException ex) {
-                    }
-                    Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
-                    an.setImage(im);
-
-                    mapPanier.add(new Animaux(an.getNom(), an.getEspece(), an.getSexe(), an.getDescription(), an.getTaille(), an.getPoids(), an.getImage(), an.getNomVet()));
-                  
-                    for (Animaux entry : mapPanier) {
-                       System.out.println("le nom est"+entry.getNom());
-                        
-                    }
-                }
-
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-        });
-
-        NetworkManager.getInstance().addToQueue(con);
-
-        return mapPanier;
-    }
-    
+      /* Affichage liste Animaux Client */
     public ArrayList<Animaux> getList() {
         ArrayList<Animaux> listAnimal = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
@@ -117,18 +52,21 @@ public class AnimauxService {
                 for (Map<String, Object> obj : list) {
                     int mm = Display.getInstance().convertToPixels(3);
                     Animaux a = new Animaux();
-                    float id = Float.parseFloat(obj.get("id").toString());
-                    a.setId((int) id);
+                    float id = Float.parseFloat(obj.get("idAnimal").toString());
+                System.out.println(id);
+                a.setId((int) id);
                     a.setEspece(obj.get("espece").toString());
                     a.setNom(obj.get("nom").toString());
-                    
-                    a.setImagePath("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString());
+
+                   // a.setImagePath("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString());
+                    a.setImagePath(obj.get("image").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString()),
+                       // imageio.save(FileSystemStorage.getInstance().openInputStream("file://C:/wamp64/www/phpStormProjects/ProjetNada/ProjetPi/web/uploads/images/evenement/" + obj.get("image").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream(obj.get("image").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
@@ -136,6 +74,7 @@ public class AnimauxService {
                     }
                     Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
                     a.setImage(im);
+                    //a.setId(obj.get("id").toString());
                     a.setEspece(obj.get("espece").toString());
                     a.setDescription(obj.get("description").toString());
                     a.setSexe(obj.get("sexe").toString());
@@ -143,10 +82,15 @@ public class AnimauxService {
                     float poids = Float.parseFloat(obj.get("poids").toString());
                     int poids2 = (int) poids;
                     a.setPoids(poids2);
+                    a.Poids=(obj.get("poids").toString());
+                    a.Taille=(obj.get("taille").toString());
+                    a.DateNaissance=(obj.get("dateNaissance").toString());
+                    a.DateVaccin=(obj.get("dateVaccin").toString());
+                    a.DateVisite=(obj.get("dateVisiteD").toString());
                     float taille = Float.parseFloat(obj.get("taille").toString());
                     int taille2 = (int) taille;
                     a.setTaille(taille2);
-                     listAnimal.add(new Animaux(a.getNom(), a.getEspece(), a.getSexe(), a.getDescription(), a.getTaille(), a.getPoids(), a.getImage(), a.getNomVet()));
+                    listAnimal.add(new Animaux(a.getNom(), a.getEspece(), a.getSexe(), a.getDescription(), a.getTaille(), a.getPoids(), a.getImage(), a.getNomVet()));
 
                 }
             } catch (IOException ex) {
@@ -155,4 +99,94 @@ public class AnimauxService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listAnimal;
     }
+
+    /*Ajout Animal */
+    public void ajoutAnimal(Animaux ta) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/ajoutAnimalJson?nom=" + ta.getNom() + "&espece=" + ta.getEspece() + "&sexe=" + ta.getSexe()
+                + "&description=" + ta.getDescription() + "&nomVet=" + ta.getNomVet()+ "&dateNaissance="+ta.getDateNaissance() +  "&image=" + ta.getImagePath();
+        con.setUrl(Url);
+
+        System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+//            if (str.trim().equalsIgnoreCase("OK")) {
+//                f2.setTitle(tlogin.getText());
+//             f2.show();
+//            }
+//            else{
+//            Dialog.show("error", "login ou pwd invalid", "ok", null);
+//            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        System.out.println("Ajout avec succée");
+
+    }
+    
+    /*Afficher liste Vet*/
+       public ArrayList<vet> getListVet() {
+        ArrayList<vet> listAnimal = new ArrayList<>();
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/listeVetJson");
+        con.addResponseListener((NetworkEvent evt) -> {
+            //listTasks = getListTask(new String(con.getResponseData()));
+            JSONParser jsonp = new JSONParser();
+
+            try {
+                Map<String, Object> tasks = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                System.out.println(tasks);
+                //System.out.println(tasks);
+                List<Map<String, Object>> list = (List<Map<String, Object>>) tasks.get("root");
+
+                for (Map<String, Object> obj : list) {
+                    int mm = Display.getInstance().convertToPixels(3);
+                   vet a = new vet();
+                    float id = Float.parseFloat(obj.get("id").toString());
+                    a.setId((int) id);
+                    a.setNom(obj.get("nom").toString());
+                    a.setEmail(obj.get("email").toString());
+
+                    
+                   
+                    listAnimal.add(new vet(a.getId(), a.getNom(),a.getEmail()));
+
+                }
+            } catch (IOException ex) {
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listAnimal;
+    }
+    
+   
+    /*Update Animal*/
+    public void updateAnimal(Animaux ta) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/updateAnimalJson?id="+ta.getId()+"&nom=" + ta.getNom() + "&espece=" + ta.getEspece() + "&sexe=" + ta.getSexe()
+                + "&description=" + ta.getDescription() + "&nomVet=" + ta.getNomVet()+ "&dateNaissance=2018-12-12" +  "&image=" + ta.getImagePath();
+        con.setUrl(Url);
+
+        System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+//            if (str.trim().equalsIgnoreCase("OK")) {
+//                f2.setTitle(tlogin.getText());
+//             f2.show();
+//            }
+//            else{
+//            Dialog.show("error", "login ou pwd invalid", "ok", null);
+//            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        System.out.println("Ajout avec succée");
+
+    }
+       
+    /*Delete Animal */
+    
+    /*Find Animal by : nom / espece*/ 
 }

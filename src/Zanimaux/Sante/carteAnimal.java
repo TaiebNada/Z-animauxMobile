@@ -129,22 +129,22 @@ public class carteAnimal extends BaseForm {
         addStringValue("Veterinaire: ", NomVet);
         
         
-         TextField Poids= new TextField(an.getPoids());
+         TextField Poids= new TextField(Animaux.Poids);
         Poids.setEditable(false);
         Poids.setUIID("TextFieldBlack");
         addStringValue("Poids ", Poids);
         
-        TextField Taille= new TextField(an.getTaille());
+        TextField Taille= new TextField(Animaux.Taille);
         Taille.setEditable(false);
         Taille.setUIID("TextFieldBlack");
         addStringValue("Taille: ", Taille);
         
-        TextField dateVaccin= new TextField(profilAnimal.poids);
+        TextField dateVaccin= new TextField(Animaux.DateVaccin);
         dateVaccin.setEditable(false);
         dateVaccin.setUIID("TextFieldBlack");
         addStringValue("Date Vaccin ", dateVaccin);
         
-        TextField dateVisiteD= new TextField(profilAnimal.poids);
+        TextField dateVisiteD= new TextField(Animaux.DateVisite);
         dateVisiteD.setEditable(false);
         dateVisiteD.setUIID("TextFieldBlack");
         addStringValue("Date derniere visite ", dateVisiteD);

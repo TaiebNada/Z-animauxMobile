@@ -26,6 +26,11 @@ public class Animaux {
     private Image image;
      private String imagePath;
     private String nomVet;
+    public static String Poids;
+    public static String Taille;
+    public static String DateVaccin;
+    public static String DateVisite;
+    public static String DateNaissance;
 
     public Animaux(String nom, String espece, String sexe, Date dateNaissance, Date dateVisiteD, Date dateVaccin, String description, int taille, int poids, String nomVet) {
         this.nom = nom;
@@ -62,6 +67,24 @@ public class Animaux {
         this.espece = espece;
         this.sexe = sexe;
         this.image = image;
+        this.nomVet = nomVet;
+    }
+
+    public Animaux(String nom, String espece, String sexe, String description, String imagePath) {
+        this.nom = nom;
+        this.espece = espece;
+        this.sexe = sexe;
+        this.description = description;
+        this.imagePath = imagePath;
+    }
+
+    public Animaux(String nom, String espece, String sexe, Date dateNaissance, String description, String imagePath, String nomVet) {
+        this.nom = nom;
+        this.espece = espece;
+        this.sexe = sexe;
+        this.dateNaissance = dateNaissance;
+        this.description = description;
+        this.imagePath = imagePath;
         this.nomVet = nomVet;
     }
 
@@ -170,6 +193,25 @@ public class Animaux {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Animaux(String nom, String espece, String sexe, String description, String imagePath, String nomVet) {
+        this.nom = nom;
+        this.espece = espece;
+        this.sexe = sexe;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.nomVet = nomVet;
+    }
+    
+      public Animaux(int id,String nom, String espece, String sexe, String description, String imagePath, String nomVet) {
+        this.id=id;
+        this.nom = nom;
+        this.espece = espece;
+        this.sexe = sexe;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.nomVet = nomVet;
     }
     
     

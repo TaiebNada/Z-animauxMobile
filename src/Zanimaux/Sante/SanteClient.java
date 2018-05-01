@@ -59,6 +59,7 @@ import java.util.Iterator;
  * @author RYM
  */
 public class SanteClient extends BaseForm {
+    public static int id;
 
     public SanteClient(Resources res) {
         super("Newsfeed", BoxLayout.y());
@@ -120,14 +121,14 @@ public class SanteClient extends BaseForm {
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton all = RadioButton.createToggle("Mes Animaux", barGroup);
         all.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Contacter véterinaire", barGroup);
-        popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("MyTTest", barGroup);
+        RadioButton ajouter = RadioButton.createToggle("Ajouter ", barGroup);
+        ajouter.setUIID("SelectBar");
+        RadioButton myFavorite = RadioButton.createToggle("Mail Vet", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, all, popular, myFavorite),
+                GridLayout.encloseIn(3, all, ajouter, myFavorite),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -139,7 +140,7 @@ public class SanteClient extends BaseForm {
         });
         bindButtonSelection(all, arrow);
       
-        bindButtonSelection(popular, arrow);
+        bindButtonSelection(ajouter, arrow);
         bindButtonSelection(myFavorite, arrow);
 
         // special case for rotation
@@ -147,32 +148,26 @@ public class SanteClient extends BaseForm {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
 
-        /* all.addActionListener((evt) -> {
-            AnimauxService s = new AnimauxService();
-            ArrayList<Animaux> liste = s.getListAnimaux();
-            for (Animaux li : liste) {
-                addButton(li.getImage(), li.getNom(), false, 26, 32);
-                System.out.println("uykgukgyukygu");
-            }
-        });*/
+      
         all.addActionListener((evt) -> {
             AnimauxService serviceTask = new AnimauxService();
             ArrayList<Animaux> lis = serviceTask.getList();
             for (Animaux li : lis) {
                 addButton(li.getImage(), li.getNom(), true, 26, 32,li.getId(), li);
+                System.out.println("idAllAddListners");
+                System.out.println(li.getId());
+                System.out.println(li.getNom());
+                
             }
 
         });
 
-       /*  carte.addActionListener((evt) -> {
-            AnimauxService serviceTask = new AnimauxService();
-            ArrayList<Animaux> lis = serviceTask.getList();
-            for (Animaux li : lis) {
-                addButton(li.getImage(), li.getNom(), true, 26, 32,li.getId(), li);
-            }
+        ajouter.addActionListener((evt) -> {
+           new ajoutAnimal(res).show();
 
-        });*/
+        });
 
+      
     }
 
     private void updateArrowPosition(Button b, Label arrow) {
@@ -254,7 +249,8 @@ public class SanteClient extends BaseForm {
 
         image.addActionListener((evt) -> {
             ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
-            System.out.println("le nom  est" + li.getNom());
+            System.out.println("le nom est " + li.getNom());
+            System.out.println("l'id est " + id);
 
             profilAnimal.setA(li);
             new profilAnimal().show();
