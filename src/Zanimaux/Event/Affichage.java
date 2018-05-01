@@ -16,6 +16,7 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 
@@ -53,6 +54,7 @@ import com.esprit.entities.Evenement;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -200,16 +202,27 @@ String json=new String(con.getResponseData());
                  float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
                   
                 e.setNbr_participant((int)nbr);
-                
-           
-
+       try{
+	Date date;
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
+       System.out.println(obj.get("dateEvenement").toString());
+               String a =obj.get("dateEvenement").toString();
+               System.out.println(obj.get("dateEvenement"));
+                    date = sdfr.parse(a);
+                    e.setDate_evenement(date);
+   }catch (Exception ex ){
+	System.out.println(ex);
+   }
+              
                 System.out.println("get listeebenemeny");
                         System.out.println(e);
                           ArrayList<Evenement> list1 = new ArrayList<>();
                         list1.add(e);
                        
       
-                       addButton(e.getNom_evenement(),e.getLieu_evenement(),e.getTheme_evenement(),e.getImage_evenement(),e,res);
+                       addButton(e.getNom_evenement(),e.getLieu_evenement(),e.getTheme_evenement(),e.getImage_evenement(),e.getDate_evenement(),e,res);
              
             }
                  } catch (IOException ex) {
@@ -228,7 +241,7 @@ String json=new String(con.getResponseData());
     public void setF(Form f) {
         this.f = f;
     }
-private void addButton( String nom, String lieu,String theme, String image,Evenement eve,Resources res) throws IOException {
+private void addButton( String nom, String lieu,String theme, String image,Date date,Evenement eve,Resources res) throws IOException {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
       
@@ -238,10 +251,13 @@ private void addButton( String nom, String lieu,String theme, String image,Evene
        ta.setUIID("NewsTopLine");
        ta.setEditable(false);
 
+       
        Label likes = new Label(" situe a : "+lieu );
        likes.setTextPosition(RIGHT);
        
        
+      
+     
        Label comments = new Label(" theme : "+theme );
        FontImage.setMaterialIcon(likes, FontImage.MATERIAL_CHAT);
       
@@ -256,7 +272,19 @@ private void addButton( String nom, String lieu,String theme, String image,Evene
       
       
        add(ta);
+      
+       
+        
+       
+               
+                 SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
+String datef = sdfr.format(date);
+             System.out.println(date);
+       
+              Label ldate = new Label(datef );
+      add(ldate);
       add(likes);
+      
               add(comments);
                        Button detail = new Button("detail evenement");
                        add(detail);

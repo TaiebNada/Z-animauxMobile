@@ -1,6 +1,8 @@
 package Zanimaux.Event;
 
 
+import static Zanimaux.Event.QRMaker.QRCode;
+import com.codename1.components.ImageViewer;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
@@ -27,10 +29,15 @@ import com.esprit.entities.Evenement;
 import com.esprit.entities.Commentaire_evenement;
 import com.esprit.services.ServiceEvenement;
 import com.esprit.entities.Participant;
+import com.google.zxing.WriterException;
+import java.io.IOException;
 
+import com.codename1.ui.Image;
+import com.codename1.ui.util.ImageIO;
+import java.io.OutputStream;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+
 
 
 public class detailevenement extends BaseForm  {
@@ -100,17 +107,39 @@ public class detailevenement extends BaseForm  {
 char ch='"';
             if (t.get(0)==ch+"0"+ch){
         
-            jeparticipe.setHidden(false);
-            jeparticipepas.setHidden(true);
+            jeparticipe.setHidden(true);
+            jeparticipepas.setHidden(false);
             System.out.println(t);
             }
            else { 
                 
-                jeparticipe.setHidden(true);
-            jeparticipepas.setHidden(false);}
+                jeparticipe.setHidden(false);
+            jeparticipepas.setHidden(true);}
            precedant.addActionListener(e -> new Affichage(res).show());
-    
+       final String nomqr = "E:/"+eve.getNom_evenement()+"MyQR.PNG";
+        final String filePath = "E:/"+eve.getNom_evenement()+"MyQR.PNG";
           jeparticipe.addActionListener((e) -> {
+              
+           Image imgqr =  QRCode(nomqr) ;
+           try {
+           String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() +eve.getNom_evenement()+  ".PNG";
+               
+                OutputStream os = FileSystemStorage.getInstance().openOutputStream(pathToBeStored );
+                ImageIO.getImageIO().save(imgqr, os, ImageIO.FORMAT_JPEG, 0.9f);
+                }
+            catch (Exception n) {
+                n.printStackTrace();
+            }
+                
+                       try {
+                
+                imgqr = imgqr.scaled(200, 200);
+               
+    add(imgqr);
+    
+            } catch(Exception ex){
+                Dialog.show("Error", "Error during image loading: " + ex, "OK", null);
+            }
            int id =eve.getId();
             ServiceEvenement ser = new ServiceEvenement();
             
@@ -130,9 +159,9 @@ char ch='"';
              Label comments = new Label(commentaire.getComm());
        FontImage.setMaterialIcon(comments, FontImage.MATERIAL_CHAT);
             
-         SimpleDateFormat sdfr= new SimpleDateFormat("dd-MM-yyyy HH:mm");
+         SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
 String date = sdfr.format(commentaire.getDateCommentaire());
-       
+             System.out.println(commentaire.getDateCommentaire());
        
               Label ldate = new Label(date );
               

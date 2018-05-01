@@ -34,7 +34,7 @@ public class ServiceEvenement {
 
     public void ajoutevenement(Evenement e) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement()+ "& themeEvenement="+  e.getTheme_evenement()+ "& lieuEvenement=" + e.getLieu_evenement()+ "& nbrMAXParticipant=" +0+"& nbrParticipant=" + 50+"& imageEvenement=" + e.getImage_evenement()+ "& descriptionEvenement=" + e.getDescription_evenement();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement()+ "& themeEvenement="+  e.getTheme_evenement()+ "& lieuEvenement=" + e.getLieu_evenement()+ "& nbrMAXParticipant=" +0+"& nbrParticipant=" + 50+"& imageEvenement=" + e.getImage_evenement()+ "& descriptionEvenement=" + e.getDescription_evenement()+"& dateEvenement=" + e.getDate_evenement();
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -120,9 +120,20 @@ public class ServiceEvenement {
                  float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
                   
                 e.setNbr_participant((int)nbr);
-                
-           
-
+                   
+   try{
+	Date date;
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
+       System.out.println(obj.get("dateEvenement").toString());
+               String a =obj.get("dateEvenement").toString();
+               System.out.println(obj.get("dateEvenement"));
+                    date = sdfr.parse(a);
+                    e.setDate_evenement(date);
+   }catch (Exception ex ){
+	System.out.println(ex);
+   }
                 System.out.println("get listeebenemeny");
                         System.out.println(e);
                 listEvenement.add(e);
@@ -305,10 +316,12 @@ Date date;
     
    try{
 	Date date;
-       
-        SimpleDateFormat sdfr= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
        System.out.println(obj.get("dateCommentaire").toString());
-               String a    =obj.get("dateCommentaire").toString();
+               String a =obj.get("dateCommentaire").toString();
+               System.out.println(obj.get("dateCommentaire"));
                     date = sdfr.parse(a);
                     e.setDateCommentaire(date);
    }catch (Exception ex ){
