@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,7 +6,9 @@
  */
 package Zanimaux.SOS;
 
+import com.codename1.ui.Button;
 import com.codename1.ui.Component;
+import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextArea;
@@ -18,6 +21,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.uikit.cleanmodern.BaseForm;
 import com.esprit.entities.Animal;
+import java.io.IOException;
 
 /**
  *
@@ -36,46 +40,45 @@ public class DetailAdoption extends BaseForm {
         getTitleArea().setUIID("Container");
         setTitle(a.getNom());
         getContentPane().setScrollVisible(false);
-
-      /*  Image img = a.getImage();
-        if (img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
-            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
-        }
-        ScaleImageLabel sl = new ScaleImageLabel(img);
-        sl.setUIID("BottomPad");
-        sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);*/
+         Button call= new Button("Appelez");
+         call.addActionListener((evt) -> {
+             Display.getInstance().dial("+21655075545");
+               
+            
+         });
         add(LayeredLayout.encloseIn(
-               // sl,
+                // sl,
                 BorderLayout.south(
                         GridLayout.encloseIn(3,
                                 FlowLayout.encloseCenter(
-                                        new Label(a.getImage())
+                                        new Label(a.getImage()),call
                                 )
                         )
                 )));
-        TextField Espece= new TextField(a.getEspece());
+        TextField Espece = new TextField(a.getEspece());
         Espece.setEditable(false);
         Espece.setUIID("TextFieldBlack");
         addStringValue("Espece", Espece);
-        
-        TextField Race= new TextField(a.getRace());
+
+        TextField Race = new TextField(a.getRace());
         Race.setEditable(false);
         Race.setUIID("TextFieldBlack");
         addStringValue("Race", Race);
-        
-        TextArea Description= new TextArea(a.getDescription());
+
+        TextArea Description = new TextArea(a.getDescription());
         Description.setEditable(false);
         Description.setUIID("TextFieldBlack");
         addStringValue("Description", Description);
-        
-        
-        TextField Taille= new TextField(a.getTaille());
+
+        TextField Taille = new TextField(a.getTaille());
         Taille.setEditable(false);
-       Taille.setUIID("TextFieldBlack");
+        Taille.setUIID("TextFieldBlack");
         addStringValue("Taille", Taille);
+        
+        
     }
-    
-       private void addStringValue(String s, Component v) {
+
+    private void addStringValue(String s, Component v) {
         add(BorderLayout.west(new Label(s, "PaddedLabel")).
                 add(BorderLayout.CENTER, v));
         add(createLineSeparator(0xeeeeee));
@@ -105,4 +108,5 @@ public class DetailAdoption extends BaseForm {
         DetailAdoption.a = a;
     }
 
+  
 }

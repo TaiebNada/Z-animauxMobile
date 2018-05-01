@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 283f192a1b8d1a4cf3441b07c93f3ad002804957
 /*
  * Copyright (c) 2016, Codename One
  *
