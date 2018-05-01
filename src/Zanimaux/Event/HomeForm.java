@@ -6,6 +6,7 @@
 package Zanimaux.Event;
 
 import com.codename1.capture.Capture;
+import com.codename1.components.ToastBar;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
@@ -13,8 +14,10 @@ import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
 import com.codename1.io.Util;
+import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.Display;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -23,8 +26,10 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.list.MultiList;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
@@ -49,6 +54,7 @@ import java.util.Map;
 public class HomeForm extends BaseForm {
 
     Form f;
+     Form ha;
     TextField tnom;
     TextField tetat;
      TextField tnbrmax;
@@ -57,7 +63,7 @@ public class HomeForm extends BaseForm {
         TextField timage;
         
         TextField tdescription;
-    Button btnajout,btnaff;
+    Button btnajout,btnprecedant,btnaff;
 
     public HomeForm(Resources res) {
         
@@ -88,31 +94,77 @@ public class HomeForm extends BaseForm {
         Label  llieu =new Label("lieu evenement");
         Label  limage =new Label("image evenement");
         Label  lnbrmax =new Label("nbrmax evenement");
+        
+       String[] characters = { "Végétarisme",
+        "sante animaux",
+        "Animaux marins en captivité",
+            "Animaux de compagnie ",
+        "Chasse ",
+        "Cirque ",
+        "Corrida ",
+        "Droit des animaux ",
+        "Élevage",
+        "Expérimentation animale",
+        "Fourrure",
+        "course",
+        "Poules pondeuses",
+        "Lait",
+        "animaux en disparition"
+};
+
+Picker datePicker = new Picker();
+datePicker.setType(Display.PICKER_TYPE_DATE);
+
+
+
+
+datePicker.setDate(new Date());
+
+ datePicker.setUIID("TextFieldBlack");
 Label  ldescription =new Label("description evenement");
+
         btnajout = new Button("ajouter");
         
-         
+         btnprecedant = new Button("precedant");
         
-      
+      add(btnprecedant);
           add(lnom);
         add(tnom);
+        
            add(llieu);
         add(tlieu);
-           add(ltheme);
-        add(ttheme);
+           
+
+AutoCompleteTextField act = new AutoCompleteTextField(characters);
+act.addActionListener(e -> ToastBar.showMessage("You picked " + act.getText(), FontImage.MATERIAL_INFO));
+Button down = new Button();
+FontImage.setMaterialIcon(down, FontImage.MATERIAL_KEYBOARD_ARROW_DOWN);
+ act.setUIID("TextFieldBlack");
+add(
+        BorderLayout.center(act).
+                add(BorderLayout.EAST, down));
+down.addActionListener(e -> act.showPopup());
+
           
            add(lnbrmax);
         add(tnbrmax);
            add(ldescription);
         add(tdescription);
+                
+
+                add(datePicker);
+
            add(limage);
         add(timage);
         timage.setEditable(false);
         Button upload = new Button("upload");
+        
+        
         add(upload);
         add(btnajout);
+         btnprecedant.addActionListener(e -> new Affichage(res).show());
 upload.addActionListener(new ActionListener() {
-        
+       
             
            
             public void actionPerformed(ActionEvent ev) {
@@ -140,7 +192,7 @@ upload.addActionListener(new ActionListener() {
    
         btnajout.addActionListener((e) -> {
             ServiceEvenement ser = new ServiceEvenement();
-            Evenement m = new Evenement( tnom.getText(), ttheme.getText(),tlieu.getText(),0,50,timage.getText(),tdescription.getText());
+            Evenement m = new Evenement( tnom.getText(),act.getText(),tlieu.getText(),0,50,timage.getText(),tdescription.getText(),datePicker.getDate());
            ser.ajoutevenement(m);
             
 

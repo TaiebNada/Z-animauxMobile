@@ -24,6 +24,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
@@ -51,7 +52,8 @@ public class SignInForm extends BaseForm {
     public  static String usernameU;
     public  static String emailU;
     public  static String passwordU;
-    public  static String imageU;
+    public  static Image imageU;
+     public  static int idU;
     public  static int code;
     
     public  static void setUsernameU(String username) {
@@ -63,6 +65,15 @@ public class SignInForm extends BaseForm {
         return usernameU;
     }
     
+    
+    public  static void setIdU(int id) {
+        SignInForm.idU = id;
+    }
+
+    public  static  int getIdU() 
+    {
+        return idU;
+    }
     
     public  static void setEmailU(String email) {
         SignInForm.emailU = email;
@@ -83,10 +94,10 @@ public class SignInForm extends BaseForm {
     }
     
     
-    public  static void setImageU(String im) {
+    public  static void setImageU(Image im) {
         SignInForm.imageU = im;
     }
-    public  static  String getImageU() 
+    public  static  Image getImageU() 
     {
         return imageU;
     }
@@ -144,6 +155,10 @@ public class SignInForm extends BaseForm {
                     setUsernameU(username.getText());
                     setPasswordU(password.getText());
                     setEmailU(ser.rechercheSkill(username.getText()).get(i).getEmail());
+                    setIdU(ser.rechercheSkill(username.getText()).get(i).getId());
+                    //setImageU(ser.rechercheSkill(username.getText()).get(i).getImage());
+
+                    
                     new NewsfeedForm(res).show();
                 }
                 else 

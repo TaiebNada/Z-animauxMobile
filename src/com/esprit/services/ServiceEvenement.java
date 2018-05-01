@@ -33,7 +33,9 @@ public class ServiceEvenement {
 
     public void ajoutevenement(Evenement e) {
         ConnectionRequest con = new ConnectionRequest();
+
         String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/Ajouttevenement?nomEvenement=" + e.getNom_evenement() + "& themeEvenement=" + e.getTheme_evenement() + "& lieuEvenement=" + e.getLieu_evenement() + "& nbrMAXParticipant=" + 0 + "& nbrParticipant=" + 50 + "& imageEvenement=" + e.getImage_evenement() + "& descriptionEvenement=" + e.getDescription_evenement();
+
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -47,7 +49,7 @@ public class ServiceEvenement {
 
     public void ajoutCommentaire(Commentaire_evenement e, int id) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire" + id + "?Comm=" + e.getComm() + "& EvenementA=" + e.getEvenementA() + "& Nom_user=" + e.getNom_user() + "& Email_user=" + e.getEmail_user() + "& DateCommentaire=" + e.getDateCommentaire();
+String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/AjouttCommentaire"+id+"?Comm=" + e.getComm()+ "& EvenementA="+  e.getEvenementA()+ "& Nom_user=" + e.getNom_user()+ "& Email_user=" + e.getEmail_user()+ "& DateCommentaire=" + e.getDateCommentaire()+ "& idutil=" + e.getIdutil();
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -72,6 +74,35 @@ public class ServiceEvenement {
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
 
+   public void supprimereve(Evenement eve) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/supprimerrev"+eve.getId();
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((x) -> {
+            String str = new String(con.getResponseData());
+            
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    public void supprimercom(Commentaire_evenement com) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/pi2/web/app_dev.php/Bienetre/supprimerrcom"+com.getId();
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((x) -> {
+            String str = new String(con.getResponseData());
+            
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+  
     public ArrayList<Evenement> getListEvenement(String json) {
 
         ArrayList<Evenement> listEvenement = new ArrayList<>();
@@ -93,20 +124,38 @@ public class ServiceEvenement {
                 e.setId((int) id);
                 //e.setId(Integer.parseInt(obj.get("id").toString().trim()));
                 e.setNom_evenement(obj.get("nomEvenement").toString());
-                e.setTheme_evenement(obj.get("themeEvenement").toString());
 
-                e.setLieu_evenement(obj.get("lieuEvenement").toString());
-                e.setImage_evenement(obj.get("imageEvenement").toString());
-
-                e.setDescription_evenement(obj.get("descriptionEvenement").toString());
-
-                float max = Float.parseFloat(obj.get("nbrMAXParticipant").toString());
-
-                e.setNbr_max_participant((int) max);
-
-                float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
-
-                e.setNbr_participant((int) nbr);
+                 e.setTheme_evenement(obj.get("themeEvenement").toString());
+               
+                  e.setLieu_evenement(obj.get("lieuEvenement").toString());
+                   e.setImage_evenement(obj.get("imageEvenement").toString());
+                   
+                   e.setDescription_evenement(obj.get("descriptionEvenement").toString());
+                   
+                   
+                    float max = Float.parseFloat(obj.get("nbrMAXParticipant").toString());
+                   
+                e.setNbr_max_participant((int)max);
+                
+                
+                 float nbr = Float.parseFloat(obj.get("nbrParticipant").toString());
+                  
+                e.setNbr_participant((int)nbr);
+                
+   try{
+	Date date;
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
+       System.out.println(obj.get("dateEvenement").toString());
+               String a =obj.get("dateEvenement").toString();
+               System.out.println(obj.get("dateEvenement"));
+                    date = sdfr.parse(a);
+                    e.setDate_evenement(date);
+   }catch (Exception ex ){
+	System.out.println(ex);
+   }     
+  
 
                 System.out.println("get listeebenemeny");
                 System.out.println(e);
@@ -241,6 +290,24 @@ public class ServiceEvenement {
         return listCommentaire_evenement;
     }
 
+     
+      public ArrayList<Commentaire_evenement> verifsupp(int id){       
+        ConnectionRequest con = new ConnectionRequest();
+       con.setUrl("http://localhost/pi2/web/app_dev.php/Bienetre/verifsupp"+id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                ServiceEvenement ser = new ServiceEvenement();
+                listCommentaire_evenement = ser.getListCommentaire_evenement(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listCommentaire_evenement;
+    }
+     
+     
+     
+   
     public ArrayList<Commentaire_evenement> getListCommentaire_evenement(String json) {
 
         ArrayList<Commentaire_evenement> listCommentaire_evenement = new ArrayList<>();
@@ -270,12 +337,16 @@ Date date;
                
                     date = format.parse(a);
                     e.setDateCommentaire(date);*/
-                try {
-                    Date date;
-
-                    SimpleDateFormat sdfr = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    System.out.println(obj.get("dateCommentaire").toString());
-                    String a = obj.get("dateCommentaire").toString();
+   
+    
+   try{
+	Date date;
+      	//String date;
+ 
+        SimpleDateFormat sdfr= new SimpleDateFormat("dd/MM/yyyy");
+       System.out.println(obj.get("dateCommentaire").toString());
+               String a =obj.get("dateCommentaire").toString();
+               System.out.println(obj.get("dateCommentaire"));
                     date = sdfr.parse(a);
                     e.setDateCommentaire(date);
                 } catch (Exception ex) {
@@ -293,7 +364,10 @@ Date date;
         }
         System.out.println(listCommentaire_evenement);
 
-        return listCommentaire_evenement;
+
+  
+  return listCommentaire_evenement;}
+    
     }
 
-}
+

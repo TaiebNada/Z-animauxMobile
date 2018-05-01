@@ -88,7 +88,10 @@ public class NewsfeedForm extends BaseForm {
         RadioButton[] rbs = new RadioButton[swipe.getTabCount()];
         FlowLayout flow = new FlowLayout(CENTER);
         flow.setValign(BOTTOM);
+          
+           
         Container radioContainer = new Container(flow);
+        
         for(int iter = 0 ; iter < rbs.length ; iter++) {
             rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
             rbs[iter].setPressedIcon(selectedWalkthru);

@@ -16,6 +16,7 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
+
 package Zanimaux.Sante;
 
 import com.codename1.components.ScaleImageLabel;
@@ -51,7 +52,6 @@ import com.esprit.entities.Animaux;
 import com.esprit.services.AnimalService;
 import com.esprit.services.AnimauxService;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * The SanteClient form
@@ -68,22 +68,21 @@ public class SanteClient extends BaseForm {
         getTitleArea().setUIID("Container");
         setTitle("Espace Santé");
         getContentPane().setScrollVisible(false);
-
+        
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {
-        });
-
+        tb.addSearchCommand(e -> {});
+        
         Tabs swipe = new Tabs();
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1, "", "Welcome", "To the Animals /Pet Mobile Clinic");
-        addTab(swipe, res.getImage("dog.jpg"), spacer2, "", "These are", "Our available services");
-
+        addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
+        addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
+                
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
-
+        
         ButtonGroup bg = new ButtonGroup();
         int size = Display.getInstance().convertToPixels(1);
         Image unselectedWalkthru = Image.createImage(size, size, 0);
@@ -101,37 +100,40 @@ public class SanteClient extends BaseForm {
         FlowLayout flow = new FlowLayout(CENTER);
         flow.setValign(BOTTOM);
         Container radioContainer = new Container(flow);
-        for (int iter = 0; iter < rbs.length; iter++) {
+        for(int iter = 0 ; iter < rbs.length ; iter++) {
             rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
             rbs[iter].setPressedIcon(selectedWalkthru);
             rbs[iter].setUIID("Label");
             radioContainer.add(rbs[iter]);
         }
-
+                
         rbs[0].setSelected(true);
         swipe.addSelectionListener((i, ii) -> {
-            if (!rbs[ii].isSelected()) {
+            if(!rbs[ii].isSelected()) {
                 rbs[ii].setSelected(true);
             }
         });
-
+        
         Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
-
+        
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton all = RadioButton.createToggle("Mes Animaux", barGroup);
         all.setUIID("SelectBar");
+
         RadioButton ajouter = RadioButton.createToggle("Ajouter ", barGroup);
         ajouter.setUIID("SelectBar");
         RadioButton myFavorite = RadioButton.createToggle("Mail Vet", barGroup);
+        
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
-
+        
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(3, all, ajouter, myFavorite),
+
                 FlowLayout.encloseBottom(arrow)
         ));
-
+        
         all.setSelected(true);
         arrow.setVisible(false);
         addShowListener(e -> {
@@ -139,14 +141,17 @@ public class SanteClient extends BaseForm {
             updateArrowPosition(all, arrow);
         });
         bindButtonSelection(all, arrow);
+
       
         bindButtonSelection(ajouter, arrow);
-        bindButtonSelection(myFavorite, arrow);
 
+        bindButtonSelection(myFavorite, arrow);
+        
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
+
 
       
         all.addActionListener((evt) -> {
@@ -168,17 +173,20 @@ public class SanteClient extends BaseForm {
         });
 
       
+        
+      
     }
-
+    
     private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
         arrow.getParent().repaint();
-
+        
+        
     }
-
+    
     private void addTab(Tabs swipe, Image img, Label spacer, String likesStr, String commentsStr, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        if (img.getHeight() < size) {
+        if(img.getHeight() < size) {
             img = img.scaledHeight(size);
         }
         Label likes = new Label(likesStr);
@@ -190,26 +198,26 @@ public class SanteClient extends BaseForm {
 
         Label comments = new Label(commentsStr);
         FontImage.setMaterialIcon(comments, FontImage.MATERIAL_CHAT);
-        if (img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
+        if(img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
         }
         ScaleImageLabel image = new ScaleImageLabel(img);
         image.setUIID("Container");
         image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         Label overlay = new Label(" ", "ImageOverlay");
-
-        Container page1
-                = LayeredLayout.encloseIn(
-                        image,
-                        overlay,
-                        BorderLayout.south(
-                                BoxLayout.encloseY(
-                                        new SpanLabel(text, "LargeWhiteText"),
-                                        FlowLayout.encloseIn(likes, comments),
-                                        spacer
-                                )
+        
+        Container page1 = 
+            LayeredLayout.encloseIn(
+                image,
+                overlay,
+                BorderLayout.south(
+                    BoxLayout.encloseY(
+                            new SpanLabel(text, "LargeWhiteText"),
+                            FlowLayout.encloseIn(likes, comments),
+                            spacer
                         )
-                );
+                )
+            );
 
         swipe.addTab("", page1);
     }
@@ -258,9 +266,10 @@ public class SanteClient extends BaseForm {
 
     }
 
+
     private void bindButtonSelection(Button b, Label arrow) {
         b.addActionListener(e -> {
-            if (b.isSelected()) {
+            if(b.isSelected()) {
                 updateArrowPosition(b, arrow);
             }
         });
