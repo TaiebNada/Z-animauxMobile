@@ -114,7 +114,7 @@ public class ProfileForm extends BaseForm {
         addStringValue1(edit);
         edit.addActionListener((e) -> {
            UserService us = new UserService();
-           User user = new User(username.getText(), email.getText(), password.getText());
+           User user = new User(SignInForm.idU,username.getText(), email.getText(), password.getText());
            //User user = new (username.getText(),email.getText(),password.getText());
            us.UpdateProfile(user);
         });

@@ -159,6 +159,13 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public User(int id, String user, String email, String password) {
+        this.id = id;
+        this.user = user;
+        this.email = email;
+        this.password = password;
+    }
     
     
 }

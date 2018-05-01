@@ -153,7 +153,22 @@ public class ReclamationService {
      public void ajoutReclamation(Reclamation ta) 
     {
         ConnectionRequest con = new ConnectionRequest();
-       String Url = "http://localhost/ProjetPi2/web/app_dev.php/Boutique/ajouter?nom="+ta.getNom()+"&email="+ta.getEmail()+"&titre="+ta.getTitre()+"&mobile="+ta.getTel()+"&subject="+ta.getObjet();
+       String Url = "http://localhost/ProjetPi2/web/app_dev.php/Boutique/ajouter?nom="+ta.getNom()+"&email="+ta.getEmail()+"&titre="+ta.getTitre()+"&mobile="+ta.getTel()+"&subject="+ta.getObjet()+"&image="+ta.getImagePath();
+       con.setUrl(Url);
+        //System.out.println("tt");
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+     
+     
+     public void Mail(String email,int code) 
+    {
+        ConnectionRequest con = new ConnectionRequest();
+       String Url = "http://localhost/ProjetPi2/web/app_dev.php/Boutique/mail2?sendTo="+email+"&sujet= votre code est : "+code;
        con.setUrl(Url);
         //System.out.println("tt");
         con.addResponseListener((e) -> {

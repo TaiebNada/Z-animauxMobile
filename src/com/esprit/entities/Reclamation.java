@@ -140,6 +140,15 @@ public class Reclamation {
         this.image = image;
         this.imagePath = imagePath;
     }
+
+    public Reclamation(String email, String nom, String tel, String titre, String objet, String imagePath) {
+        this.email = email;
+        this.nom = nom;
+        this.tel = tel;
+        this.titre = titre;
+        this.objet = objet;
+        this.imagePath = imagePath;
+    }
     
     
 }
