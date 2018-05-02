@@ -19,6 +19,7 @@
 package Zanimaux.Sante;
 
 import com.codename1.components.ScaleImageLabel;
+import com.codename1.messaging.Message;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Component;
@@ -91,17 +92,18 @@ public class profilAnimal extends BaseForm {
                         )
                 )
         ));
-        System.out.println(a.getId());
-        System.out.println(a.getNom());
-        System.out.println(a.getSexe());
-        System.out.println(a.getDescription());
-        System.out.println(a.getPoids());
+        
 
         TextField Nom = new TextField(a.getNom());
         Nom.setEditable(false);
         Nom.setUIID("TextFieldBlack");
         addStringValue("Nom: ", Nom);
 
+        TextField Id = new TextField(a.getId());
+       Nom.setEditable(false);
+        Id.setUIID("TextFieldBlack");
+        addStringValue("Id: ", Id);
+        
         TextField Sexe = new TextField(a.getSexe());
         Sexe.setEditable(false);
         Sexe.setUIID("TextFieldBlack");
@@ -112,7 +114,7 @@ public class profilAnimal extends BaseForm {
         Espece.setUIID("TextFieldBlack");
         addStringValue("Espece", Espece);
 
-        TextField DateNaissance = new TextField(a.getEspece());
+        TextField DateNaissance = new TextField(a.DateNaissance);
         DateNaissance.setEditable(false);
         DateNaissance.setUIID("TextFieldBlack");
         addStringValue("Date de Naissance: ", DateNaissance);
@@ -126,20 +128,51 @@ public class profilAnimal extends BaseForm {
         NomVet.setEditable(false);
         NomVet.setUIID("TextFieldBlack");
         addStringValue("Veterinaire: ", NomVet);
-
+        
+        
+        System.out.println(a.getId());
+        System.out.println(a.getNom());
+        System.out.println(a.getSexe());
+        System.out.println(a.getDescription());
+        System.out.println(a.getPoids());
          poids=a.getPoids();
          System.out.println(poids);
         taille= a.getTaille();
         System.out.println(taille);
+        System.out.println(a.getImage());
+        System.out.println(a.getId());
          /*dateVaccin = a.getDateVaccin();
          dateVisiteD = a.getDateVisiteD();*/
+         
+         
         Button btnajout = new Button("Afficher carte Santé");
+        Button update = new Button("Modifier profil");
+        Button mail = new Button("Contacter Veterinaire");
 
         add(btnajout);
-        
+        add(update);
+        add(mail);
         
        btnajout.addActionListener((e) -> {
          new carteAnimal().show();
+
+        });
+       
+       update.addActionListener((e) -> {
+         new upadateProfil().show();
+           System.out.println("l'id est");
+           System.out.println(Id.getText());
+           System.out.println("'id a.getID");
+           System.out.println(a.getId());
+        });
+       
+       mail.addActionListener((e) -> {
+ 
+          Message m = new Message("Body of message");
+//m.getAttachments().put(textAttachmentUri, "text/plain");
+//m.getAttachments().put(imageAttachmentUri, "image/png");
+
+        Display.getInstance().sendMessage(new String[]{"riia.vision@gmail.com"}, "Subject of message", m);
 
         });
         

@@ -16,19 +16,18 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
-
-package Zanimaux.Sante;
+package Zanimaux.magasin;
 
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
+import com.esprit.entities.Produit;
+import com.esprit.services.PanierService;
+import com.esprit.services.ProduitService;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
+import static com.codename1.ui.CN.getResourceAsStream;
 import com.codename1.ui.Component;
-import static com.codename1.ui.Component.BOTTOM;
-import static com.codename1.ui.Component.CENTER;
-import static com.codename1.ui.Component.LEFT;
-import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
@@ -38,7 +37,10 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -46,39 +48,43 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.codename1.uikit.cleanmodern.BaseForm;
-import com.esprit.entities.Animal;
-import com.esprit.entities.Animaux;
-import com.esprit.services.AnimalService;
-import com.esprit.services.AnimauxService;
+import Zanimaux.magasin.panierForm;
+import static Zanimaux.magasin.panierForm.myMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
- * The SanteClient form
+ * The newsfeed form
  *
- * @author RYM
+ * @author Shai Almog
  */
-public class SanteClient extends BaseForm {
-    public static int id;
+public class NewsfeedForm extends BaseForm {
 
-    public SanteClient(Resources res) {
+    public static Map<Produit, Integer> myMap = PanierService.lc.getLignedeCommande();
+    PanierService panierservice = new PanierService();
+
+    public NewsfeedForm(Resources res) {
+        
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Espace Santé");
+        setTitle(" ");
         getContentPane().setScrollVisible(false);
         
-        super.addSideMenu(res);
-        tb.addSearchCommand(e -> {});
+        
+//        super.addSideMenu(res);
+//        tb.addSearchCommand(e -> {new Categorie(res, "Nutrition").show();
+//        });
         
         Tabs swipe = new Tabs();
-
+        
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
-        addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
-                
+        
+        addTab(swipe, res.getImage("news-item.jpg"), spacer1, " ", " ", " ");
+        addTab(swipe, res.getImage("dog.jpg"), spacer2, " ", " ", " ");
+        
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
@@ -100,16 +106,16 @@ public class SanteClient extends BaseForm {
         FlowLayout flow = new FlowLayout(CENTER);
         flow.setValign(BOTTOM);
         Container radioContainer = new Container(flow);
-        for(int iter = 0 ; iter < rbs.length ; iter++) {
+        for (int iter = 0; iter < rbs.length; iter++) {
             rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
             rbs[iter].setPressedIcon(selectedWalkthru);
             rbs[iter].setUIID("Label");
             radioContainer.add(rbs[iter]);
         }
-                
+        
         rbs[0].setSelected(true);
         swipe.addSelectionListener((i, ii) -> {
-            if(!rbs[ii].isSelected()) {
+            if (!rbs[ii].isSelected()) {
                 rbs[ii].setSelected(true);
             }
         });
@@ -117,20 +123,38 @@ public class SanteClient extends BaseForm {
         Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
         
-        ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("Mes Animaux", barGroup);
-        all.setUIID("SelectBar");
-
-        RadioButton ajouter = RadioButton.createToggle("Ajouter ", barGroup);
-        ajouter.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("Mail Vet", barGroup);
         
+       
+        TextField spacer3 = new TextField("", "Search for products", 20, TextArea.ANY);
+        spacer3.getAllStyles().setFgColor(0x8B1800);
+        addStringValue("", spacer3);
+       
+        Label Supp = new Label("Search");
+            Supp.getAllStyles().setFgColor(0x8B1800);
+            addStringValue("", Supp);
+
+            Supp.addPointerPressedListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    
+                }
+            });
+        
+        
+        
+        ButtonGroup barGroup = new ButtonGroup();
+        RadioButton all = RadioButton.createToggle("All", barGroup);
+        all.setUIID("SelectBar");
+        RadioButton featured = RadioButton.createToggle("Accessoires", barGroup);
+        featured.setUIID("SelectBar");
+        RadioButton popular = RadioButton.createToggle("Nutrition", barGroup);
+        popular.setUIID("SelectBar");
+        RadioButton myFavorite = RadioButton.createToggle("Hygiene", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
         
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, all, ajouter, myFavorite),
-
+                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
                 FlowLayout.encloseBottom(arrow)
         ));
         
@@ -141,52 +165,55 @@ public class SanteClient extends BaseForm {
             updateArrowPosition(all, arrow);
         });
         bindButtonSelection(all, arrow);
-
-      
-        bindButtonSelection(ajouter, arrow);
-
+        bindButtonSelection(featured, arrow);
+        bindButtonSelection(popular, arrow);
         bindButtonSelection(myFavorite, arrow);
-        
+
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
-
-
-      
-        all.addActionListener((evt) -> {
-            AnimauxService serviceTask = new AnimauxService();
-            ArrayList<Animaux> lis = serviceTask.getList();
-            for (Animaux li : lis) {
-                addButton(li.getImage(), li.getNom(), true, 26, 32,li.getId(), li);
-                System.out.println("idAllAddListners");
-                System.out.println(li.getId());
-                System.out.println(li.getNom());
-                
-            }
-
-        });
-
-        ajouter.addActionListener((evt) -> {
-           new ajoutAnimal(res).show();
-
-        });
-
-      
         
-      
+        
+        all.addActionListener((evt) -> {
+            new NewsfeedForm(res).show();
+        });
+        featured.addActionListener((evt) -> {
+            new Categorie(res, "Accessoire").show();
+        });
+        
+        popular.addActionListener((evt) -> {
+            new Categorie(res, "Nutrition").show();
+        });
+        
+        myFavorite.addActionListener((evt) -> {
+            new Categorie(res, "Hygiene").show();
+        });
+        
+        ProduitService serviceTask = new ProduitService();
+        ArrayList<Produit> lis = serviceTask.getList();
+        for (Produit li : lis) {
+            addButton(res, li.getImage(), li.getNom(), false, " ", " ", li.getId(), li);
+            
+        }
+          
     }
-    
+       private void addStringValue(String s, Component v) {
+        add(BorderLayout.west(new Label(s, "PaddedLabel")).
+                add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0xeeeeee));
+    }
+       
+       
     private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
         arrow.getParent().repaint();
-        
         
     }
     
     private void addTab(Tabs swipe, Image img, Label spacer, String likesStr, String commentsStr, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        if(img.getHeight() < size) {
+        if (img.getHeight() < size) {
             img = img.scaledHeight(size);
         }
         Label likes = new Label(likesStr);
@@ -195,10 +222,10 @@ public class SanteClient extends BaseForm {
         FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, heartStyle);
         likes.setIcon(heartImage);
         likes.setTextPosition(RIGHT);
-
+        
         Label comments = new Label(commentsStr);
         FontImage.setMaterialIcon(comments, FontImage.MATERIAL_CHAT);
-        if(img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
+        if (img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
         }
         ScaleImageLabel image = new ScaleImageLabel(img);
@@ -206,23 +233,23 @@ public class SanteClient extends BaseForm {
         image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         Label overlay = new Label(" ", "ImageOverlay");
         
-        Container page1 = 
-            LayeredLayout.encloseIn(
-                image,
-                overlay,
-                BorderLayout.south(
-                    BoxLayout.encloseY(
-                            new SpanLabel(text, "LargeWhiteText"),
-                            FlowLayout.encloseIn(likes, comments),
-                            spacer
+        Container page1
+                = LayeredLayout.encloseIn(
+                        image,
+                        overlay,
+                        BorderLayout.south(
+                                BoxLayout.encloseY(
+                                        new SpanLabel(text, "LargeWhiteText"),
+                                        FlowLayout.encloseIn(likes, comments),
+                                        spacer
+                                )
                         )
-                )
-            );
-
+                );
+        
         swipe.addTab("", page1);
     }
-
-    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, int id, Animaux li) {
+    
+    private void addButton(Resources res, Image img, String title, boolean liked, String likeCount, String commentCount, int id, Produit p) {
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
         Button image = new Button(img.fill(width, height));
@@ -232,8 +259,8 @@ public class SanteClient extends BaseForm {
         TextArea ta = new TextArea(title);
         ta.setUIID("NewsTopLine");
         ta.setEditable(false);
-
-        Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
+        
+        Label likes = new Label(likeCount + "   ", "NewsBottomLine");
         likes.setTextPosition(RIGHT);
         if (!liked) {
             FontImage.setMaterialIcon(likes, FontImage.MATERIAL_FAVORITE);
@@ -243,35 +270,40 @@ public class SanteClient extends BaseForm {
             FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, s);
             likes.setIcon(heartImage);
         }
-        Label comments = new Label(commentCount + " Comments", "NewsBottomLine");
+        Label comments = new Label(commentCount + " ", "NewsBottomLine");
         FontImage.setMaterialIcon(likes, FontImage.MATERIAL_CHAT);
-
+        
         cnt.add(BorderLayout.CENTER,
                 BoxLayout.encloseY(
                         ta,
                         BoxLayout.encloseX(likes, comments)
                 ));
         add(cnt);
-
-        //System.out.println("le id est " + id);
-
+        
         image.addActionListener((evt) -> {
             ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
-            System.out.println("le nom est " + li.getNom());
-            System.out.println("l'id est " + id);
+            System.out.println("le anoaleded est" + p.getNom());
 
-            profilAnimal.setA(li);
-            new profilAnimal().show();
+//            Details.setP(p);
+//          new Details().show();
+            p.setQte(1);
+            panierservice.ajouterLigneDeCommande(p, p.getQte());
+            panierForm.setP(p);
+            new panierForm(res).show();
+            
         });
-
+    
+        
     }
-
-
+    
+   
+    
     private void bindButtonSelection(Button b, Label arrow) {
         b.addActionListener(e -> {
-            if(b.isSelected()) {
+            if (b.isSelected()) {
                 updateArrowPosition(b, arrow);
             }
         });
+        
     }
 }

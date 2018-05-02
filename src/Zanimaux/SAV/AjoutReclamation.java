@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -41,7 +45,10 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
+<<<<<<< HEAD
 import com.codename1.ui.spinner.Picker;
+=======
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
@@ -103,9 +110,15 @@ public class AjoutReclamation extends BaseForm {
         temail = new TextField();
         temail.setUIID("TextFieldBlack");
         ttel = new TextField();
+<<<<<<< HEAD
         ttel.setUIID("TextFieldBlack");
         timage = new TextField();
         timage.setUIID("TextFieldBlack");
+=======
+        ttel.setUIID("TextFieldBlack") ;
+        timage = new TextField();
+        timage.setUIID("TextFieldBlack") ;
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
         btnajout = new Button("Passer");
 
         //btnaff=new Button("Afficher mes reclamations");
@@ -122,12 +135,17 @@ public class AjoutReclamation extends BaseForm {
         Button upload = new Button("ajouter image");
         f.add(upload);
         f.add(timage);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
         f.add(btnajout);
         getF().show();
         
         
         
+<<<<<<< HEAD
         
         btnajout.addActionListener((e) -> {
             if (!temail.getText().contains("@")) {
@@ -172,10 +190,37 @@ public class AjoutReclamation extends BaseForm {
 
                 try {
                     String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + ".png";
+=======
+        btnajout.addActionListener((e) -> {
+            ReclamationService ser = new ReclamationService();
+            //Reclamation R = new Reclamation("email","user","tel","titre","sujet");
+            Reclamation R = new Reclamation(tnom.getText(),temail.getText(),ttitre.getText(),tsujet.getText(),ttel.getText(),timage.getText());
+            //Reclamation R = new Reclamation(temail.getText(),tnom.getText(),ttitre.getText());
+             //Reclamation R = new Reclamation("emaaail","nadaaa","titreee","1111","reclamationnnnn");
+            ser.ajoutReclamation(R);
+            Message m = new Message("Reclamation : "+tsujet.getText());
+//m.getAttachments().put(textAttachmentUri, "text/plain");
+//m.getAttachments().put(imageAttachmentUri, "image/png");
+sendMessage(new String[] {"nada.taieb@esprit.tn"}, "titre de reclamation : "+ttitre.getText(), m);
+             
+
+        });
+         
+         
+        upload.addActionListener((e) -> {
+            
+            String filePath = Capture.capturePhoto();
+        if (filePath != null) {
+            
+                try
+                {
+                    String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() +  ".jpg";
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
                     //String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() +  ".jpg";
                     //String pathToBeStored = "C:/wampNada/www/Images/";
                     //String path =  e.getSource().toString();
                     Image img = Image.createImage(filePath);
+<<<<<<< HEAD
                     OutputStream os = FileSystemStorage.getInstance().openOutputStream(pathToBeStored);
                     ImageIO.getImageIO().save(img, os, ImageIO.FORMAT_PNG, 0.9f);
                     os.close();
@@ -183,6 +228,17 @@ public class AjoutReclamation extends BaseForm {
                     timage.setText(filePath);
 
                     /* 
+=======
+                    OutputStream os = FileSystemStorage.getInstance().openOutputStream(pathToBeStored );
+                    ImageIO.getImageIO().save(img, os, ImageIO.FORMAT_PNG, 0.9f);
+                    os.close();
+                    
+                    timage.setText(pathToBeStored);
+                    
+                    
+                    
+                   /* 
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
                     FileChooser fileChooser = new FileChooser();
                     FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
                     FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
@@ -217,17 +273,35 @@ String path = "C:/wampNada/www/Images/";
           // System.out.println("C:/wampNada/www/Images/"+str);
            // inscri2.setImage(img1);
 
+<<<<<<< HEAD
                      */
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
 
             }
+=======
+*/
+                }
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            
+        }
+              
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
 
         });
 
         /* upload.addActionListener(new ActionListener() {
         
+<<<<<<< HEAD
+=======
+        
+       
+       /* upload.addActionListener(new ActionListener() {
+        
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
             
            
             public void actionPerformed(ActionEvent ev) {
@@ -249,6 +323,17 @@ String path = "C:/wampNada/www/Images/";
                 e.printStackTrace();
             }
         }
+<<<<<<< HEAD
+=======
+    
+} 
+   });
+   
+     */   
+        
+    }
+      
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
     
 } 
    });
@@ -276,6 +361,7 @@ String path = "C:/wampNada/www/Images/";
                         return true;
                     else return true ;
     }
+<<<<<<< HEAD
         }
         else return false ;
     
@@ -284,3 +370,5 @@ String path = "C:/wampNada/www/Images/";
 }
     
 }
+=======
+>>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
