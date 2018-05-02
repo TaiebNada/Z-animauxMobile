@@ -144,12 +144,12 @@ public class SignInForm extends BaseForm {
         {
            
             UserService ser= new UserService();
-            System.out.println(ser.rechercheSkill(username.getText()));
-            for (int i =0 ; i<ser.rechercheSkill(username.getText()).size() ;i++)
+            //System.out.println(ser.rechercheSkill(username.getText()));
+            for (int i =0 ; i<1 ;i++)
                 
             {
                 
-                System.out.println(ser.rechercheSkill(username.getText()).get(i).getUser());
+                //System.out.println(ser.rechercheSkill(username.getText()).get(i).getUser());
                 if (username.getText().equals(ser.rechercheSkill(username.getText()).get(i).getUser())&& (password.getText().equals(ser.rechercheSkill(username.getText()).get(i).getPassword())) )
                 {
                     setUsernameU(username.getText());

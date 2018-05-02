@@ -51,6 +51,7 @@ import com.codename1.uikit.cleanmodern.BaseForm;
 import com.esprit.entities.Reclamation;
 import com.esprit.services.ReclamationService;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The newsfeed form
@@ -157,14 +158,16 @@ public class Sav extends BaseForm {
         for(Reclamation li : liste)
         {
              addButton(li.getImage(), li.getObjet(), false, 26, 32);
+             //addButton(li.getImage(), li.getObjet(),li.getDateR(), false, 26, 32);
              //addButton(smile.png, li.getObjet(), false, 26, 32);
+             //System.out.println(li.getDateR());
         }
           });
         
         
         all.addActionListener((evt) -> {
             
-           AjoutReclamation a= new AjoutReclamation();
+           AjoutReclamation a= new AjoutReclamation(res);
            a.getF().show();
        
           });
@@ -216,7 +219,7 @@ public class Sav extends BaseForm {
         swipe.addTab("", page1);
     }
     
-   private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount) {
+   private void addButton(Image img, String title,boolean liked, int likeCount, int commentCount) {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
        Button image = new Button(img.fill(width, height));

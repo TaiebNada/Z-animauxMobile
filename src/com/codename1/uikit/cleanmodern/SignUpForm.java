@@ -37,13 +37,19 @@ import com.esprit.services.UserService;
 import java.util.Random;
 
 import com.codename1.io.Log;
-import com.codename1.messaging.Message;
+//import com.codename1.messaging.Message;
 import static com.codename1.messaging.Message.sendMessage;
+import com.codename1.ui.Dialog;
 import static com.codename1.ui.events.ActionEvent.Type.Response;
 import com.esprit.services.ReclamationService;
 import java.io.IOException;
 import java.util.Map;
 //import java.net.PasswordAuthentication;
+
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 
 
@@ -162,6 +168,12 @@ public class SignUpForm extends BaseForm {
   
         next.addActionListener((e) -> {
     
+           /* if(!email.getText().contains("@"))
+            {
+                Dialog.show("Erreur","Le mail doit etre valide","Ok","Cancel");
+            }*/
+            
+            
      
                     // int r1 = r.nextInt(High - Low) + Low;
                     
@@ -215,6 +227,7 @@ public class SignUpForm extends BaseForm {
              setUsernameU(username.getText());
        setEmailU(email.getText());
        setPasswordU(password.getText());
+            System.out.println("nnnn");
        new ActivateForm(res).show();
 
 
@@ -231,12 +244,49 @@ public class SignUpForm extends BaseForm {
 else System.out.println("errerrr");
             */  
 
+
+
+
+
+    /*String ACCOUNT_SID =
+            "AC4a5965ea5793d5dd6b2c57ef49e03731";
+       String AUTH_TOKEN =
+            "060436182b9799fc22cd434a9b511cf0";
+
+    
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        Message message = Message
+                .creator(new PhoneNumber("+21654811120"), // to
+                        new PhoneNumber("+21654811120"), // from
+                        "essai?")
+                .create();
+        
+       // Message m = Mess
+
+        System.out.println(message.getSid());
+    */
+
+
+
+
+
+
+
+
+
 });
             
 
        
         
   
+        
+        
+        
+        
+        
+        
 
 
 

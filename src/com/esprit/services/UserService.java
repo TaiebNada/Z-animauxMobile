@@ -140,9 +140,9 @@ public class UserService {
                 JSONParser jsonp = new JSONParser();
                 try {
                     Map<String, Object> skills = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
-                    System.out.println(skills);
-                    System.out.println(skills.keySet());
-                    System.out.println(skills.values());
+                   // System.out.println(skills);
+                   // System.out.println(skills.keySet());
+                   // System.out.println(skills.values());
                     List<Map<String, Object>> list = (List<Map<String, Object>>) skills.get("root");
                     for (Map<String, Object> obj : list) {
                         User skill = new User();

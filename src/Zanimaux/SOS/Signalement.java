@@ -63,7 +63,7 @@ public class Signalement extends BaseForm {
                 )));
         envoyer.addActionListener((evt) -> {
             AnimalService a = new AnimalService();
-            a.ajoutRequest(content.getText(), i,1);
+           // a.ajoutRequest(content.getText(), i,1);
             new Adoption(res).show();
         });
             } catch (IOException ex) {
