@@ -5,6 +5,7 @@ import static Zanimaux.Event.QRMaker.QRCode;
 import com.codename1.components.ImageViewer;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.messaging.Message;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Dialog;
@@ -79,11 +80,15 @@ public class detailevenement extends BaseForm  {
         Lieu.setUIID("TextFieldBlack");
         addStringValue("Lieu", Lieu);
         
-        TextField Nbr_participant = new TextField(eve.getNbr_participant());
+        int c=eve.getNbr_participant();
+        String x=String.valueOf(c);
+         int b=eve.getNbr_max_participant();
+        String y=String.valueOf(b);
+        TextField Nbr_participant = new TextField(y);
         Nbr_participant.setUIID("TextFieldBlack");
         addStringValue("Nbr_participant", Nbr_participant);
         
-        TextField Nbr_max_participant = new TextField(eve.getNbr_max_participant());
+        TextField Nbr_max_participant = new TextField(x);
         Nbr_max_participant.setUIID("TextFieldBlack");
         addStringValue("Nbr_max_participant", Nbr_max_participant);
         
@@ -94,6 +99,7 @@ public class detailevenement extends BaseForm  {
             ServiceEvenement ser1 = new ServiceEvenement();
             ArrayList<Participant> a;
       //* a=ser1.existe(id1);
+       int idutil=   SignInForm.getIdU();
          ArrayList t=ser1.siexiste(id1);
          Button jeparticipe = new Button("je participe");
        Button jeparticipepas = new Button("annuler pariticpation");
@@ -102,11 +108,21 @@ public class detailevenement extends BaseForm  {
            System.out.println( "t.get"+t.get(0));
           System.out.println(t);
         String str  =t.get(0).toString();
+                                        float var = Float.parseFloat(t.get(0).toString());
+
         System.out.println("str="+str);
         System.out.println(str);
-       
+        System.out.println("var entier"+var);
 char ch='"';
-            if (t.get(0)==ch+"0"+ch){
+if(eve.getNbr_participant()<=eve.getNbr_max_participant()){
+    System.out.println(eve.getNbr_participant());
+        System.out.println(eve.getNbr_max_participant());
+
+    jeparticipe.setHidden(true);
+                        jeparticipepas.setHidden(true);
+
+}
+         else   if (var==1){
         
             jeparticipe.setHidden(true);
             jeparticipepas.setHidden(false);
@@ -122,11 +138,24 @@ char ch='"';
           jeparticipe.addActionListener((e) -> {
               
            Image imgqr =  QRCode(nomqr) ;
+              
            try {
-           String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() +eve.getNom_evenement()+  ".PNG";
-               
+                String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() +eve.getNom_evenement()+  ".PNG";
+           
                 OutputStream os = FileSystemStorage.getInstance().openOutputStream(pathToBeStored );
                 ImageIO.getImageIO().save(imgqr, os, ImageIO.FORMAT_JPEG, 0.9f);
+                System.out.println(pathToBeStored);
+                  Message m = new Message("QR code evenement Z'animaux");
+//m.getAttachments().put(textAttachmentUri, "text/plain");
+m.getAttachments().put(pathToBeStored, "/jpeg");
+
+        Display.getInstance().sendMessage(new String[]{"djoedon12@gmail.com"}, "Subject of message", m);
+
+         /*       
+Message msg = new Message("see attachment");
+        msg.setAttachment(pathToBeStored);
+        msg.setAttachmentMimeType(Message.MIME_IMAGE_PNG);
+        Display.getInstance().sendMessage(new String[]{"djoedon12@gmail.com"}, "QR code evenement Z'animaux", msg);*/
                 }
             catch (Exception n) {
                 n.printStackTrace();
@@ -142,9 +171,12 @@ char ch='"';
                 Dialog.show("Error", "Error during image loading: " + ex, "OK", null);
             }
            int id =eve.getId();
+       
             ServiceEvenement ser = new ServiceEvenement();
             
           ser.jeparticipe(id);
+           new detailevenement(res, eve).show();
+
 
         });
           
@@ -171,9 +203,21 @@ String date = sdfr.format(commentaire.getDateCommentaire());
         add(ta);
       add(ldate);
               add(comments);
+                 System.out.println("n.getIdutil()"+commentaire.getIdutil());
+    System.out.println("SignInForm.getIdU()"+SignInForm.getIdU());
+            if(commentaire.getIdutil()==SignInForm.getIdU()){
+                 Button btnsuppcommentaire = new Button("supprimer mon commentaire");
+        add(btnsuppcommentaire);
+        btnsuppcommentaire.addActionListener((e) -> {
+            ServiceEvenement serv = new ServiceEvenement();
+            serv.supprimercom(commentaire);
+            new detailevenement(res, eve).show();
+            });
+        
+            }
          }
   
-        add(FlowLayout.encloseCenter(createStarRankSlider()));
+       
                TextField commentaire = new TextField("", "commentaire", 50, TextArea.ANY); 
 commentaire.setUIID("TextFieldBlack");
  Label  lcommentaire =new Label("Commentaire");
@@ -201,7 +245,7 @@ java.util.Date date = new java.util.Date();
 Commentaire_evenement.setDateCommentaire(date);
         
   ser.ajoutCommentaire(Commentaire_evenement,id1);
-            
+            new detailevenement(res, eve).show();
 
         });
     }

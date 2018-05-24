@@ -64,12 +64,12 @@ import java.util.Map;
  *
  * @author sana
  */
-public class Affichage extends BaseForm {
+public class Affichageancien extends BaseForm {
 
     Form f;
     SpanLabel lb;
 
-    public Affichage(Resources res) {
+    public Affichageancien(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -85,7 +85,7 @@ public class Affichage extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1);
+        addTab(swipe, res.getImage("dog.jpg"), spacer1);
         addTab(swipe, res.getImage("dog.jpg"), spacer2);
 
         swipe.setUIID("Container");
@@ -120,36 +120,7 @@ public class Affichage extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("All", barGroup);
-        all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Featured", barGroup);
-        featured.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Popular", barGroup);
-        popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
-        myFavorite.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
-
-        add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
-                FlowLayout.encloseBottom(arrow)
-        ));
-
-        all.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(all, arrow);
-        });
-        bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
-        bindButtonSelection(popular, arrow);
-        bindButtonSelection(myFavorite, arrow);
-
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+       
         f = new Form();
 
         ServiceEvenement serviceEvenement = new ServiceEvenement();
@@ -197,7 +168,7 @@ public class Affichage extends BaseForm {
                             System.out.println(datec.getTime());
                             System.out.println(datenow.getTime());
                             System.out.println(k);
-if (k<0){
+if (k>=0){
                                 Evenement e = new Evenement();
 
                                 // System.out.println(obj.get("id"));
@@ -284,7 +255,7 @@ if (k<0){
         add(comments);
         Button detail = new Button("detail evenement");
         add(detail);
-        detail.addActionListener(e -> new detailevenement(res, eve).show());
+        detail.addActionListener(e -> new detailevenementanciens(res, eve).show());
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

@@ -16,17 +16,7 @@ import com.codename1.io.NetworkManager;
  */
 public class CommandeService {
     
-  public void ajoutTask(lpc ta) {
-        ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Ajout/" + ta.getId() + "/" + ta.getIdc() + "/" + ta.getQuantite() + "/" + ta.getIdproduit() ;
-        con.setUrl(Url);
 
-        con.addResponseListener((e) -> {
-            String str = new String(con.getResponseData());
-            System.out.println(str);
-        });
-        NetworkManager.getInstance().addToQueueAndWait(con);
-    }
  }
 
     

@@ -246,7 +246,7 @@ public class Categorie extends BaseForm {
             System.out.println("le anoaleded est" + p.getNom());
 
             Details.setP(p);
-          new Details().show();
+          new Details(res).show();
 
         });
     }

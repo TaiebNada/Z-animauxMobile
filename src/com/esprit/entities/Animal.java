@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,6 +7,8 @@
 package com.esprit.entities;
 
 import com.codename1.ui.Image;
+import com.codename1.ui.Label;
+import java.util.Date;
 
 /**
  *
@@ -23,7 +26,52 @@ public class Animal {
     private String imagePath;
     private Image image;
     private String Type;
+    private int Numero;
+    private Date date;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+
+    public int getNumero() {
+        return Numero;
+    }
+
+    public void setNumero(int Numero) {
+        this.Numero = Numero;
+    }
+    
+ public Animal(String Espece, String Race, String Sexe, String Nom, String Taille, String Description, String Type ,String imagePath, int Numero,Date date) {
+        this.Espece = Espece;
+        this.Race = Race;
+        this.Sexe = Sexe;
+        this.Nom = Nom;
+        this.Taille = Taille;
+        this.Description = Description;
+        this.imagePath = imagePath;
+        this.Type = Type;
+        this.Numero= Numero;
+        this.date = date;
+    }
+
+    public Animal(String Espece, String Race, String Sexe, String Nom, String Taille, String Description, String Type ,String imagePath) {
+        this.Espece = Espece;
+        this.Race = Race;
+        this.Sexe = Sexe;
+        this.Nom = Nom;
+        this.Taille = Taille;
+        this.Description = Description;
+        this.imagePath = imagePath;
+        this.Type = Type;
+    }
+
+    
+    
     public String getType() {
         return Type;
     }

@@ -18,7 +18,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
-import Zanimaux.magasin.BaseForm;
+import com.codename1.uikit.cleanmodern.BaseForm;
 import com.esprit.entities.Produit;
 import com.codename1.googlemaps.MapContainer;
 import com.codename1.googlemaps.MapLayout;
@@ -37,7 +37,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.Resources;
-import static Zanimaux.magasin.NewsfeedForm.myMap;
+import static Zanimaux.magasin.ProduitForm.myMap;
 import java.util.Map;
 
 /**
@@ -52,7 +52,7 @@ public class panierForm extends BaseForm {
     PanierService panierservice = new PanierService();
     Form f;
 
-    public panierForm(Resources res) {
+    public panierForm(Resources res,Produit q) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -65,7 +65,8 @@ public class panierForm extends BaseForm {
         all.addPointerPressedListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                new NewsfeedForm(res).show();
+                Details.setP(q);
+          new Details(res).show();
             }
         });
         /*  Image img = a.getImage();
@@ -84,7 +85,7 @@ public class panierForm extends BaseForm {
                 )
         ));
 
-        Label pro = new Label("        Produit                                Qte           Prix");
+        Label pro = new Label("        Produit                                Qte        Prix");
 
         pro.getAllStyles().setFgColor(0x180967);
         addStringValue("", pro);
@@ -103,9 +104,9 @@ public class panierForm extends BaseForm {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     myMap.remove(pr);
-                    new panierForm(res).show();
+                    new panierForm(res,q).show();
                 }
-            });
+            });}
 Button co = new Button("Valider Commande");
             
             addStringValue("", co);
@@ -113,8 +114,9 @@ Button co = new Button("Valider Commande");
             co.addPointerPressedListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-//                    Message m = new Message("Body of message");
-//Display.getInstance().sendMessage(new String[] {"miropodolski77@gmail.com"}, "Subject of message", m);
+                    Message m = new Message("Commande passée avec succés");
+Display.getInstance().sendMessage(new String[] {"miropodolski77@gmail.com"}, "Subject of message", m);
+
 
 
 Form mapDemo = new Form("Maps", new LayeredLayout());
@@ -128,17 +130,12 @@ Form mapDemo = new Form("Maps", new LayeredLayout());
                 markers.setLayout(new MapLayout(mc, markers));
                 mapDemo.add(markers);
 
-                Coord moscone = new Coord(37.7831, -122.401558);
+                Coord moscone = new Coord(36.81833, 10.17938);
                 Button mosconeButton = new Button("");
                 FontImage.setMaterialIcon(mosconeButton, FontImage.MATERIAL_PLACE);
                 markers.add(moscone, mosconeButton);
-                
-                
-                
-                
-               
 
-                mc.zoom(moscone, 5);
+                mc.zoom(moscone, 9);
             } else {
                 // iOS Screenshot process...
                 mapDemo.add(new Label("Loading, please wait...."));
@@ -147,7 +144,7 @@ Form mapDemo = new Form("Maps", new LayeredLayout());
 
 
                 }
-       });}}
+       });}
         
                     
 

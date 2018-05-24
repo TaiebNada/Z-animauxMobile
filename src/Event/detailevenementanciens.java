@@ -90,6 +90,7 @@ public class detailevenementanciens extends BaseForm {
         ServiceEvenement ser1 = new ServiceEvenement();
         ArrayList<Participant> a;
         //* a=ser1.existe(id1);
+        int idutil=SignInForm.getIdU();
         ArrayList t = ser1.siexiste(id1);
 
         System.out.println("t.get" + t.get(0));
@@ -120,18 +121,22 @@ public class detailevenementanciens extends BaseForm {
             add(ta);
             add(ldate);
             add(comments);
+            
+             System.out.println("n.getIdutil()"+commentaire.getIdutil());
+    System.out.println("SignInForm.getIdU()"+SignInForm.getIdU());
             if(commentaire.getIdutil()==SignInForm.getIdU()){
                  Button btnsuppcommentaire = new Button("supprimer mon commentaire");
         add(btnsuppcommentaire);
         btnsuppcommentaire.addActionListener((e) -> {
             ServiceEvenement serv = new ServiceEvenement();
             serv.supprimercom(commentaire);
+            new detailevenementanciens(res, eve).show();
             });
         
             }
         }
 
-        add(FlowLayout.encloseCenter(createStarRankSlider()));
+       
         TextField commentaire = new TextField("", "commentaire", 50, TextArea.ANY);
         commentaire.setUIID("TextFieldBlack");
         Label lcommentaire = new Label("Commentaire");
@@ -156,7 +161,7 @@ public class detailevenementanciens extends BaseForm {
             Commentaire_evenement.setDateCommentaire(date);
 
             ser.ajoutCommentaire(Commentaire_evenement, id1);
-
+ new detailevenementanciens(res, eve).show();
         });
     }
 

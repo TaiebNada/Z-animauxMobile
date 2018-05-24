@@ -49,6 +49,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
+import com.codename1.uikit.cleanmodern.SignInForm;
 import com.esprit.services.ServiceEvenement;
 import com.esprit.entities.Evenement;
 
@@ -64,12 +65,12 @@ import java.util.Map;
  *
  * @author sana
  */
-public class Affichageancien extends BaseForm {
+public class Affichagemesev extends BaseForm {
 
     Form f;
     SpanLabel lb;
 
-    public Affichageancien(Resources res) {
+    public Affichagemesev(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -85,7 +86,7 @@ public class Affichageancien extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1);
+        addTab(swipe, res.getImage("dog.jpg"), spacer1);
         addTab(swipe, res.getImage("dog.jpg"), spacer2);
 
         swipe.setUIID("Container");
@@ -119,37 +120,7 @@ public class Affichageancien extends BaseForm {
         Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
-        ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("All", barGroup);
-        all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Featured", barGroup);
-        featured.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Popular", barGroup);
-        popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
-        myFavorite.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
-
-        add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
-                FlowLayout.encloseBottom(arrow)
-        ));
-
-        all.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(all, arrow);
-        });
-        bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
-        bindButtonSelection(popular, arrow);
-        bindButtonSelection(myFavorite, arrow);
-
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+       
         f = new Form();
 
         ServiceEvenement serviceEvenement = new ServiceEvenement();
@@ -191,13 +162,21 @@ public class Affichageancien extends BaseForm {
                             System.out.println("datenow"+dateFormat.format(datenow));
                             datec=dateFormat.parse(a);
                             date = sdfr.parse(a);
-                        
+                         Evenement n = new Evenement();
+
+                                // System.out.println(obj.get("id"));
+                                float idu = Float.parseFloat(obj.get("idutil").toString());
+                                System.out.println(idu);
+                                n.setIdutil((int) idu);
                             
                           double k= (double)(datenow.getTime()- datec.getTime());
                             System.out.println(datec.getTime());
                             System.out.println(datenow.getTime());
                             System.out.println(k);
-if (k>=0){
+                            System.out.println("n.getIdutil()"+n.getIdutil());
+    System.out.println("SignInForm.getIdU()"+SignInForm.getIdU());
+if (n.getIdutil()==SignInForm.getIdU()){
+    
                                 Evenement e = new Evenement();
 
                                 // System.out.println(obj.get("id"));
@@ -282,9 +261,12 @@ if (k>=0){
         add(likes);
 
         add(comments);
-        Button detail = new Button("detail evenement");
-        add(detail);
-        detail.addActionListener(e -> new detailevenementanciens(res, eve).show());
+        Button supprimerbt = new Button("supprimer");
+       ServiceEvenement ser = new ServiceEvenement();
+        add(supprimerbt);
+        supprimerbt.addActionListener(e -> ser.supprimereve(eve));
+        
+        new Affichagemesev(res).show();
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +17,7 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.ImageIO;
 import com.esprit.entities.Animal;
+import com.esprit.entities.Spot;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +30,57 @@ import java.util.Map;
  * @author ADMIN
  */
 public class AnimalService {
-    
-    //static List<Animal> all = new List<Animal>
+
+    static int Numero = 0;
+
+    public void ajoutSpot(double latitude, double longitude, String image, String nom) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/AjoutSpot?latitude=" + latitude + "&longitude=" + longitude + "&image=" + image + "&nom=" + nom;
+        con.setUrl(Url);
+
+        System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+//            if (str.trim().equalsIgnoreCase("OK")) {
+//                f2.setTitle(tlogin.getText());
+//             f2.show();
+//            }
+//            else{
+//            Dialog.show("error", "login ou pwd invalid", "ok", null);
+//            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+
+    public void ajoutRequest(String content, String img, int iduser) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/AjoutRequest?content=" + content + "&img=" + img + "&iduser=" + iduser;
+        con.setUrl(Url);
+
+        System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+//            if (str.trim().equalsIgnoreCase("OK")) {
+//                f2.setTitle(tlogin.getText());
+//             f2.show();
+//            }
+//            else{
+//            Dialog.show("error", "login ou pwd invalid", "ok", null);
+//            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
 
     public void ajoutTask(Animal ta) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Ajout/" + ta.getEspece() + "/" + ta.getRace() + "/" + ta.getNom() + "/" + ta.getTaille() + "/" + ta.getDescription();
+        String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Ajout?Espece=" + ta.getEspece() + "& Race=" + ta.getRace() + "& Nom=" + ta.getNom() + "& Taille=" + ta.getTaille() + "& Description=" + ta.getDescription() + "& image1=" + ta.getImagePath() + "& Type=" + ta.getType() + "& DateNaissance=" + ta.getDate() + "& Numero=" + ta.getNumero() + "& Sexe=" + ta.getSexe();
+        // String Url = "http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Ajout/" + ta.getEspece() + "/" + ta.getRace() + "/" + ta.getNom() + "/" + ta.getTaille() + "/" + ta.getDescription();
         con.setUrl(Url);
+        System.out.println(Url);
 
         System.out.println("tt");
 
@@ -72,13 +118,13 @@ public class AnimalService {
                     a.setId((int) id);
                     a.setRace(obj.get("race").toString());
                     a.setNom(obj.get("nom").toString());
-                    a.setImagePath("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
+                    a.setImagePath("file:///C:/wampNada/www/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
@@ -116,27 +162,30 @@ public class AnimalService {
                     a.setId((int) id);
                     a.setRace(obj.get("race").toString());
                     a.setNom(obj.get("nom").toString());
-                    
-                    a.setImagePath("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
+
+                    a.setImagePath("file:///C:/wampNada/www/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
                     } catch (IOException ex) {
                     }
-                    Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
-                    a.setImage(im);
+
                     a.setEspece(obj.get("espece").toString());
                     a.setDescription(obj.get("description").toString());
                     a.setSexe(obj.get("sexe").toString());
                     a.setTaille(obj.get("taille").toString());
-                     a.setType(obj.get("type").toString());
-                     listAnimal.add(new Animal(a.getId(), a.getEspece(), a.getRace(), a.getSexe(),  a.getNom(),  a.getTaille(),  a.getDescription(), im,  a.getType()));
+                    a.setType(obj.get("type").toString());
+                    if (a.getType().equals("SOS")) {
+                        Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
+                        a.setImage(im);
+                        listAnimal.add(new Animal(a.getId(), a.getEspece(), a.getRace(), a.getSexe(), a.getNom(), a.getTaille(), a.getDescription(), im, a.getType()));
+                    }
 
                 }
             } catch (IOException ex) {
@@ -144,6 +193,33 @@ public class AnimalService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listAnimal;
+    }
+
+    public int rechercheAnimal(int id) {
+        ArrayList<Animal> listAnimal = new ArrayList<>();
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Find" + id);
+
+        con.addResponseListener((NetworkEvent evt) -> {
+            //listTasks = getListTask(new String(con.getResponseData()));
+            JSONParser jsonp = new JSONParser();
+
+            try {
+                Map<String, Object> tasks = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                System.out.println(tasks);
+                //System.out.println(tasks);
+                List<Map<String, Object>> list = (List<Map<String, Object>>) tasks.get("root");
+
+                for (Map<String, Object> obj : list) {
+                    Numero = Integer.parseInt(obj.get("numero").toString());
+                    System.out.println(Integer.parseInt(obj.get("numero").toString()));
+
+                }
+            } catch (IOException ex) {
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return Numero;
     }
 
     private Map<String, Object> createListEntry(String name, String date, Image icon) {
@@ -164,9 +240,9 @@ public class AnimalService {
     public Animal recherche(int id) {
         Animal a = new Animal();
         ConnectionRequest con = new ConnectionRequest();
-        System.out.println("idddddddddd"+id);
-        con.setUrl("http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Find/"+ id);
-       
+        System.out.println("idddddddddd" + id);
+        con.setUrl("http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/Find/" + id);
+
         con.addResponseListener((NetworkEvent evt) -> {
             //listOffres = getListOffre(new String(con.getResponseData()));
             JSONParser jsonp = new JSONParser();
@@ -191,7 +267,7 @@ public class AnimalService {
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/xampp/htdocs/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/ProjetPI2018/web/uploads/images/evenement/" + obj.get("image1").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
@@ -206,4 +282,31 @@ public class AnimalService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return a;
     }
+
+    public ArrayList<Spot> getListSpot() {
+        ArrayList<Spot> listSpot = new ArrayList<>();
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/ProjetPI2018/web/app_dev.php/api/animalSOS/AllSpot");
+        con.addResponseListener((NetworkEvent evt) -> {
+            //listTasks = getListTask(new String(con.getResponseData()));
+            JSONParser jsonp = new JSONParser();
+
+            try {
+                Map<String, Object> tasks = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                System.out.println(tasks);
+                //System.out.println(tasks);
+                List<Map<String, Object>> list = (List<Map<String, Object>>) tasks.get("root");
+
+                for (Map<String, Object> obj : list) {
+                    listSpot.add(new Spot(Double.parseDouble(obj.get("longitude").toString()), Double.parseDouble(obj.get("latitude").toString()), obj.get("image").toString(), obj.get("nom").toString()));
+                    // listAnimal.add(new Animal(a.getId(), a.getEspece(), a.getRace(), a.getSexe(), a.getNom(), a.getTaille(), a.getDescription(), im, a.getType()));
+
+                }
+            } catch (IOException ex) {
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listSpot;
+    }
+
 }

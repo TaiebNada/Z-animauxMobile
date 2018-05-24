@@ -16,8 +16,13 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
-import Zanimaux.magasin.BaseForm;
+import com.codename1.uikit.cleanmodern.BaseForm;
+import com.esprit.services.PanierService;
 import com.esprit.entities.Produit;
+import com.codename1.ui.Button;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.util.Resources;
 
 /**
  *
@@ -27,16 +32,26 @@ public class Details extends BaseForm {
 
     private static int id;
     private static Produit p;
+     PanierService panierservice = new PanierService();
     Form f;
-
-    public Details() {
+int a=30;
+    public Details(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle(p.getNom());
         getContentPane().setScrollVisible(false);
+ Label all = new Label("Back");
+        addStringValue("", all);
 
+        all.addPointerPressedListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                Details.setP(p);
+          new ProduitForm(res).show();
+            }
+        });
       /*  Image img = a.getImage();
         if (img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
@@ -56,20 +71,46 @@ public class Details extends BaseForm {
         TextField Espece= new TextField(p.getCategorie());
         Espece.setEditable(false);
         Espece.setUIID("TextFieldBlack");
-        addStringValue("Espece", Espece);
+        addStringValue("Categorie", Espece);
         
-        TextField Race= new TextField(p.getQuantite_stock());
+        
+        Label prix = new Label("                                "+Float.toString(p.getPrix()));
+            prix.setUIID("Produit");
+            addStringValue("Prix", prix);
+            
+        
+        TextField Race= new TextField(Integer.toString(p.getQuantiteStock()+30));
+        
         Race.setEditable(false);
         Race.setUIID("TextFieldBlack");
-        addStringValue("Race", Race);
-        
-        TextArea Description= new TextArea("hello");
-        Description.setEditable(false);
-        Description.setUIID("TextFieldBlack");
-        addStringValue("Description", Description);
+        addStringValue("Quantite stock", Race);
         
         
-       
+        
+        
+       Button co = new Button("Ajouter au panier");
+            
+            addStringValue("", co);
+            
+            TextField spacer3 = new TextField("", "Choisir quantite", 20, TextArea.ANY);
+        spacer3.getAllStyles().setFgColor(0x8B1800);
+        addStringValue("", spacer3);
+            
+                 
+                 co.addPointerPressedListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+           if ((Integer.parseInt(spacer3.getText()))<=(p.getQuantiteStock()+30))
+           {p.setQte(Integer.parseInt(spacer3.getText()));
+           
+            panierservice.ajouterLigneDeCommande(p, p.getQte());
+            p.setQuantiteStock(p.getQuantiteStock()-Integer.parseInt(spacer3.getText()));
+            panierForm.setP(p);
+            new panierForm(res,p).show();}
+
+
+                }
+       });
     }
     
        private void addStringValue(String s, Component v) {

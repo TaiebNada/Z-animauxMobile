@@ -5,10 +5,14 @@
  */
 package Zanimaux.SOS;
 
+import static Zanimaux.SOS.Adheration.filePath;
 import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ToastBar;
 import com.codename1.io.Log;
+import com.codename1.location.Location;
+import com.codename1.location.LocationManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -62,12 +66,24 @@ public class Signalement extends BaseForm {
                         )
                 )));
         envoyer.addActionListener((evt) -> {
+             InfiniteProgress ip = new InfiniteProgress();
+            Dialog ipDlg = ip.showInifiniteBlocking();
+            Location location = LocationManager.getLocationManager().getCurrentLocationSync(30000);
+            ipDlg.dispose();
+            if (location == null) {
+                try {
+                    location = LocationManager.getLocationManager().getCurrentLocation();
+                } catch (IOException err) {
+                    Dialog.show("Location Error", "Unable to find your current location, please be sure that your GPS is turned on", "OK", null);
+                    return;
+                }
+            }
+            Double loc1 = location.getLatitude();
+            Double loc2 = location.getLongitude();
+            Log.p("Latitude: " + loc1);
+            Log.p("Longitude: " + loc2);
             AnimalService a = new AnimalService();
-<<<<<<< HEAD
-           // a.ajoutRequest(content.getText(), i,1);
-=======
-            //;
->>>>>>> 96f3eea390abce1d4ac6e8fbb4ca2d8cc2e715a9
+            a.ajoutSpot(loc1, loc2, i,content.getText());
             new Adoption(res).show();
         });
             } catch (IOException ex) {

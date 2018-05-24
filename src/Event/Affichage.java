@@ -18,6 +18,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
 import com.codename1.l10n.DateFormat;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 
@@ -46,10 +47,11 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
+import com.codename1.ui.list.DefaultListModel;
+import com.codename1.ui.list.ListModel;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
-import com.codename1.uikit.cleanmodern.SignInForm;
 import com.esprit.services.ServiceEvenement;
 import com.esprit.entities.Evenement;
 
@@ -65,12 +67,12 @@ import java.util.Map;
  *
  * @author sana
  */
-public class Affichagemesev extends BaseForm {
+public class Affichage extends BaseForm {
 
     Form f;
     SpanLabel lb;
 
-    public Affichagemesev(Resources res) {
+    public Affichage(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -86,7 +88,7 @@ public class Affichagemesev extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1);
+        addTab(swipe, res.getImage("dog.jpg"), spacer1);
         addTab(swipe, res.getImage("dog.jpg"), spacer2);
 
         swipe.setUIID("Container");
@@ -121,37 +123,14 @@ public class Affichagemesev extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("All", barGroup);
-        all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Featured", barGroup);
-        featured.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Popular", barGroup);
-        popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
-        myFavorite.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+       
 
-        add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
-                FlowLayout.encloseBottom(arrow)
-        ));
+       
 
-        all.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(all, arrow);
-        });
-        bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
-        bindButtonSelection(popular, arrow);
-        bindButtonSelection(myFavorite, arrow);
 
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+        
         f = new Form();
+         DefaultListModel model = new DefaultListModel();
 
         ServiceEvenement serviceEvenement = new ServiceEvenement();
 
@@ -176,7 +155,7 @@ public class Affichagemesev extends BaseForm {
                     List<Map<String, Object>> list2 = (List<Map<String, Object>>) Evenemets.get("root");
 
                     for (Map<String, Object> obj : list2) {
-
+int i=0;
                        
                         try {
                            Date date;
@@ -192,18 +171,13 @@ public class Affichagemesev extends BaseForm {
                             System.out.println("datenow"+dateFormat.format(datenow));
                             datec=dateFormat.parse(a);
                             date = sdfr.parse(a);
-                         Evenement n = new Evenement();
-
-                                // System.out.println(obj.get("id"));
-                                float idu = Float.parseFloat(obj.get("id").toString());
-                                System.out.println(idu);
-                                n.setId((int) idu);
+                        
                             
                           double k= (double)(datenow.getTime()- datec.getTime());
                             System.out.println(datec.getTime());
                             System.out.println(datenow.getTime());
                             System.out.println(k);
-if (n.getIdutil()==SignInForm.getIdU()){
+if (k<0){
                                 Evenement e = new Evenement();
 
                                 // System.out.println(obj.get("id"));
@@ -230,21 +204,26 @@ if (n.getIdutil()==SignInForm.getIdU()){
                                 e.setDate_evenement(date);
                                 System.out.println("get listeebenemeny");
                                 System.out.println(e);
-                                ArrayList<Evenement> list1 = new ArrayList<>();
-                                list1.add(e);
+                                
+                                
+                                
                                 addButton(e.getNom_evenement(), e.getLieu_evenement(), e.getTheme_evenement(), e.getImage_evenement(), e.getDate_evenement(), e, res);
 
                             }
+
                         } catch (Exception ex) {
                             System.out.println(ex);
                         }
 
                     }
+                   
                 } catch (IOException ex) {
                 }
 
             }
         });
+
+                   
 
     }
 
@@ -288,10 +267,9 @@ if (n.getIdutil()==SignInForm.getIdU()){
         add(likes);
 
         add(comments);
-        Button supprimerbt = new Button("supprimer");
-       ServiceEvenement ser = new ServiceEvenement();
-        add(supprimerbt);
-        supprimerbt.addActionListener(e -> ser.supprimereve(eve));
+        Button detail = new Button("detail evenement");
+        add(detail);
+        detail.addActionListener(e -> new detailevenement(res, eve).show());
     }
 
     private void updateArrowPosition(Button b, Label arrow) {

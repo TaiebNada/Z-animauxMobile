@@ -31,6 +31,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
+import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -40,6 +41,7 @@ import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
+import static com.codename1.ui.events.ActionEvent.Type.Log;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -48,7 +50,6 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import Zanimaux.magasin.panierForm;
 import static Zanimaux.magasin.panierForm.myMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -58,12 +59,12 @@ import java.util.Map;
  *
  * @author Shai Almog
  */
-public class NewsfeedForm extends BaseForm {
+public class ProduitForm extends BaseForm {
 
     public static Map<Produit, Integer> myMap = PanierService.lc.getLignedeCommande();
     PanierService panierservice = new PanierService();
 
-    public NewsfeedForm(Resources res) {
+    public ProduitForm(Resources res) {
         
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
@@ -82,7 +83,7 @@ public class NewsfeedForm extends BaseForm {
         Label spacer1 = new Label();
         Label spacer2 = new Label();
         
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1, " ", " ", " ");
+        addTab(swipe, res.getImage("dog.jpg"), spacer1, " ", " ", " ");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, " ", " ", " ");
         
         swipe.setUIID("Container");
@@ -136,8 +137,11 @@ public class NewsfeedForm extends BaseForm {
             Supp.addPointerPressedListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    
+               new Categorie(res, spacer3.getText()).show();     
+               System.out.println(spacer3.getText());
                 }
+                
+              
             });
         
         
@@ -176,7 +180,7 @@ public class NewsfeedForm extends BaseForm {
         
         
         all.addActionListener((evt) -> {
-            new NewsfeedForm(res).show();
+            new ProduitForm(res).show();
         });
         featured.addActionListener((evt) -> {
             new Categorie(res, "Accessoire").show();
@@ -193,6 +197,7 @@ public class NewsfeedForm extends BaseForm {
         ProduitService serviceTask = new ProduitService();
         ArrayList<Produit> lis = serviceTask.getList();
         for (Produit li : lis) {
+            String a="shopping-basket.png";
             addButton(res, li.getImage(), li.getNom(), false, " ", " ", li.getId(), li);
             
         }
@@ -284,12 +289,11 @@ public class NewsfeedForm extends BaseForm {
             ToastBar.showMessage(title, FontImage.MATERIAL_INFO);
             System.out.println("le anoaleded est" + p.getNom());
 
-//            Details.setP(p);
-//          new Details().show();
-            p.setQte(1);
-            panierservice.ajouterLigneDeCommande(p, p.getQte());
-            panierForm.setP(p);
-            new panierForm(res).show();
+            Details.setP(p);
+          new Details(res).show();
+
+
+
             
         });
     

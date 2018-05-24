@@ -50,13 +50,13 @@ public class ProduitService {
                     a.setPrix(Float.parseFloat(obj.get("prix").toString()));
                     //a.setQuantite_stock(Integer.parseInt(obj.get("quantiteStock").toString()));
                     a.setCategorie(obj.get("categorie").toString());
-                    a.setImagePath("file:///C:/wamp64/www/pi/web/uploads/images/" + obj.get("image").toString());
+                    a.setImagePath("file:///C:/wampNada/www/pi/web/uploads/images/" + obj.get("image").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wamp64/www/pi/web/uploads/images/" + obj.get("image").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/pi/web/uploads/images/" + obj.get("image").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
@@ -64,7 +64,7 @@ public class ProduitService {
                     }
                     Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
                     a.setImage(im);
-                    listProduit.add(new Produit(a.getNom(), a.getPrix(), a.getCategorie(),a.getQuantite_stock(), a.getImage()));
+                    listProduit.add(new Produit(a.getNom(), a.getPrix(), a.getCategorie(),a.getQuantiteStock(), a.getImage()));
 
                 }
             } catch (IOException ex) {
@@ -94,13 +94,13 @@ public class ProduitService {
                     a.setPrix(Float.parseFloat(obj.get("prix").toString()));
                     //a.setQuantite_stock(Integer.parseInt(obj.get("quantiteStock").toString()));
                     a.setCategorie(obj.get("categorie").toString());
-                    a.setImagePath("file:///C:/wamp64/www/pi/web/uploads/images/" + obj.get("image").toString());
+                    a.setImagePath("file:///C:/wampNada/www/pi/web/uploads/images/" + obj.get("image").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wamp64/www/pi/web/uploads/images/" + obj.get("image").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/pi/web/uploads/images/" + obj.get("image").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);
@@ -108,7 +108,7 @@ public class ProduitService {
                     }
                     Image im = Image.createImage(out.toByteArray(), 0, out.toByteArray().length);
                     a.setImage(im);
-                    listProduit.add(new Produit(a.getNom(), a.getPrix(), a.getCategorie(),a.getQuantite_stock(), a.getImage()));
+                    listProduit.add(new Produit(a.getNom(), a.getPrix(), a.getCategorie(),a.getQuantiteStock(), a.getImage()));
 
                 }
             } catch (IOException ex) {
@@ -140,14 +140,14 @@ public class ProduitService {
                     System.out.println(id1);
                     a.setNom(obj.get("nom").toString());
                     a.setPrix(Float.parseFloat(obj.get("prix").toString()));
-                    a.setQuantite_stock(Integer.parseInt(obj.get("quantite_stock").toString()));
+                    a.setQuantiteStock(Integer.parseInt(obj.get("quantite_stock").toString()));
                    // a.setCategorie(obj.get("categorie").toString());
                     EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(mm * 3, mm * 4, 0), false);
 
                     ImageIO imageio = ImageIO.getImageIO();
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     try {
-                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wamp64/www/pi/web/uploads/images" + obj.get("image").toString()),
+                        imageio.save(FileSystemStorage.getInstance().openInputStream("file:///C:/wampNada/www/pi/web/uploads/images" + obj.get("image").toString()),
                                 out,
                                 ImageIO.FORMAT_JPEG,
                                 100, 100, 1);

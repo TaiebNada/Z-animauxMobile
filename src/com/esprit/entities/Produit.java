@@ -18,19 +18,19 @@ public class Produit {
     private float prix;
     private Image image;
     private String imagePath;
-    private int quantite_stock;
+    private int quantiteStock;
     private String categorie;
     private int vente;
     private float rating;
     private int nombre_de_vote;
     private int qte;
 
-    public Produit(String nom, float prix,  String categorie,int quantite_stock,Image image) {
+    public Produit(String nom, float prix,  String categorie,int quantiteStock,Image image) {
         
         this.nom = nom;
         this.prix = prix;
         this.image = image;
-        this.quantite_stock = quantite_stock;
+        this.quantiteStock = quantiteStock;
         this.categorie = categorie;
       
     }
@@ -72,12 +72,12 @@ public class Produit {
 
    
 
-    public int getQuantite_stock() {
-        return quantite_stock;
+    public int getQuantiteStock() {
+        return quantiteStock;
     }
 
-    public void setQuantite_stock(int quantite_stock) {
-        this.quantite_stock = quantite_stock;
+    public void setQuantiteStock(int quantiteStock) {
+        this.quantiteStock = quantiteStock;
     }
 
     public String getCategorie() {
@@ -130,7 +130,7 @@ public class Produit {
 
     @Override
     public String toString() {
-        return "Produit{" + "id=" + id + ", nom=" + nom + ", prix=" + prix + ", image=" + image + ", imagePath=" + imagePath + ", quantite_stock=" + quantite_stock + ", categorie=" + categorie + ", vente=" + vente + ", rating=" + rating + ", nombre_de_vote=" + nombre_de_vote + ", qte=" + qte + '}';
+        return "Produit{" + "id=" + id + ", nom=" + nom + ", prix=" + prix + ", image=" + image + ", imagePath=" + imagePath + ", quantite_stock=" + quantiteStock + ", categorie=" + categorie + ", vente=" + vente + ", rating=" + rating + ", nombre_de_vote=" + nombre_de_vote + ", qte=" + qte + '}';
     }
 
 

@@ -17,6 +17,7 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.ImageIO;
+import com.codename1.uikit.cleanmodern.SignInForm;
 import com.esprit.entities.Animal;
 import com.esprit.entities.Animaux;
 import com.esprit.entities.User;
@@ -38,7 +39,7 @@ public class AnimauxService {
     public ArrayList<Animaux> getList() {
         ArrayList<Animaux> listAnimal = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/maListeJson");
+        con.setUrl("http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/maListeJson/"+SignInForm.getIdU());
         con.addResponseListener((NetworkEvent evt) -> {
             //listTasks = getListTask(new String(con.getResponseData()));
             JSONParser jsonp = new JSONParser();
@@ -103,7 +104,7 @@ public class AnimauxService {
     /*Ajout Animal */
     public void ajoutAnimal(Animaux ta) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/ajoutAnimalJson?nom=" + ta.getNom() + "&espece=" + ta.getEspece() + "&sexe=" + ta.getSexe()
+        String Url = "http://localhost/phpStormProjects/ProjetNada/ProjetPi/web/app_dev.php/Animaux1/ajoutAnimalJson/"+SignInForm.getIdU()+"?nom=" + ta.getNom() + "&espece=" + ta.getEspece() + "&sexe=" + ta.getSexe()
                 + "&description=" + ta.getDescription() + "&nomVet=" + ta.getNomVet()+ "&dateNaissance="+ta.getDateNaissance() +  "&image=" + ta.getImagePath();
         con.setUrl(Url);
 
